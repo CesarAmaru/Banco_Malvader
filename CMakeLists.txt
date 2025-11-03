@@ -3,5 +3,7 @@ project(Banco_Malvader C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(Banco_Malvader main.c
-        cliente_data.h)
+add_executable(Banco_Malvader src/main.c
+        src/cliente_data.h
+        src/banco.h
+        src/banco.c)
