@@ -1,6 +1,7 @@
 
 #ifndef BANCO_MALVADER_CLIENTE_DATA_H
 #define BANCO_MALVADER_CLIENTE_DATA_H
+#include <string.h>
 
 typedef struct {
     char agencia[8];
@@ -20,6 +21,33 @@ typedef struct {
     double saldo;
     int ativo;
 }Cliente;
+
+typedef struct {
+    Cliente *dados;
+    size_t tamanho;
+    size_t capacidade;
+} ListaClientes;
+
+void cliente_ini(Cliente *c);
+void cliente_impr(const Cliente *c);
+//---------------------------------------
+
+void cliente_ini(Cliente *c) {
+    memset(c ,0, sizeof(Cliente));
+    c->ativo = 1;
+    strcpy(c->estado, "DF");
+}
+
+void cliente_impr(const Cliente *c) {
+    printf("\n=====DADOS DO CLIENTE=====\n");
+    printf("CONTA: %s\n", c->conta);
+    printf("AGENCIA: %s\n", c->agencia);
+    printf("NOME: %s", c->nome);
+    printf("CPF: %s\n", c->cpf);
+    printf("SALDO: %.2f\n", c->saldo);
+    printf("STATUS: %s\n", c->ativo ? "ATIVO" : "INATIVO");
+}
+
 
 
 
