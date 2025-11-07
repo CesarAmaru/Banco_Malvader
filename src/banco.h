@@ -12,11 +12,11 @@ typedef struct {
     char arq_movs[100];
 } Banco;
 
-void baco_init();
+void banco_init(Banco *b, const char *arq_cli, const char * arq_mov);
 void banco_carregar();
-void banco_add_cliente();
+void banco_add_cliente(Banco *b, Cliente c);
 void banco_salvar();
-void banco_free();
+void banco_free(Banco *b);
 
 // ----------------
 
