@@ -35,3 +35,29 @@ void banco_add_cliente(Banco *b, Cliente c) {
     b->clientes[b->tam] = c;
     b->tam++;
 }
+
+
+void banco_salvar(Banco *b) {
+    int i;
+    FILE *a = fopen(b->arq_clientes, "w");
+    if (a == NULL) {
+        printf("Erro ao abrir o arquivo!");
+        exit(1);
+    }
+
+    for (i = 0; i < b->tam; i++) {
+        Cliente c = b->clientes[i];
+
+        fprintf(a, "%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%.2f;%d\n",
+                c.agencia, c.conta, c.nome, c.cpf, c.data_nasc,
+                c.telefone, c.endereco, c.cep, c.local, c.numero_casa,
+                c.bairro, c.cidade, c.estado, c.senha, c.saldo, c.ativo);
+    }
+
+    fclose(a);
+    printf("Dados salvos com sucesso!");
+}
+
+void banco_carregar(Banco *b) {
+
+}

@@ -2,6 +2,7 @@
 #ifndef BANCO_MALVADER_CLIENTE_DATA_H
 #define BANCO_MALVADER_CLIENTE_DATA_H
 #include <string.h>
+#include <stdio.h>
 
 typedef struct {
     char agencia[8];
