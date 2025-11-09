@@ -18,6 +18,7 @@ void banco_add_cliente(Banco *b, Cliente c);
 void banco_salvar();
 void banco_free(Banco *b);
 
+
 // ----------------
 
 
