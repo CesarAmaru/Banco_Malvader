@@ -13,10 +13,12 @@ typedef struct {
 } Banco;
 
 void banco_init(Banco *b, const char *arq_cli, const char * arq_mov);
-void banco_carregar();
+void banco_salvar(Banco *b);
+void banco_carregar(Banco *b);
 void banco_add_cliente(Banco *b, Cliente c);
-void banco_salvar();
 void banco_free(Banco *b);
+
+
 
 // ----------------
 
