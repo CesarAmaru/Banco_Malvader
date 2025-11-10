@@ -1,0 +1,63 @@
+# ==================================================
+# ARQUIVOS COMPILADOS
+# ==================================================
+build/
+cmake-build-*/
+*.o
+*.exe
+*.out
+banco
+Banco_Malvader
+
+# ==================================================
+# ARQUIVOS DO CMAKE
+# ==================================================
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# ==================================================
+# DADOS DO BANCO (não versionar dados de produção)
+# ==================================================
+data/clientes.txt
+data/movimentos.txt
+
+# ==================================================
+# IDEs
+# ==================================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# CLion
+.idea/
+cmake-build-debug/
+cmake-build-release/
+
+# Dev-C++
+*.layout
+*.depend
+
+# Code::Blocks
+*.cbp
+*.depend
+*.layout
+
+# ==================================================
+# SISTEMA OPERACIONAL
+# ==================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+.directory
