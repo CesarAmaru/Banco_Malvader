@@ -60,6 +60,7 @@ int banco_salvar(Banco *b) {
 
     fclose(a);
     printf("Dados salvos com sucesso!");
+    return 1;
 }
 
 // carregar clientes salvos no arquivo clientes.txt
@@ -195,10 +196,13 @@ int banco_criar_conta(Banco *b) {
     }
 
     if (!banco_salvar(b)) {
-        printf("\nERRO AO SALVAR OS DADOS!");
+        printf("\nErro ao salvar dados!\n");
         return 0;
     }
 
-    printf("Conta criada com sucesso");
-    printf("Agencia: %s | Conta: %s", novo.agencia, novo.conta);
+    printf("\nConta criada com sucesso!\n");
+    printf("Agência: %s | Conta: %s\n", novo.agencia, novo.conta);
+
+    return 1;
 }
+
