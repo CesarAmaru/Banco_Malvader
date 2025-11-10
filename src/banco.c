@@ -58,6 +58,6 @@ void banco_salvar(Banco *b) {
     printf("Dados salvos com sucesso!");
 }
 
-void banco_buscar(Banco *b) {
+void banco_carregar(Banco *b) {
 
 }

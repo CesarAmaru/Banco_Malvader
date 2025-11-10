@@ -14,7 +14,7 @@ typedef struct {
 
 void banco_init(Banco *b, const char *arq_cli, const char * arq_mov);
 void banco_salvar(Banco *b);
-void banco_buscar(Banco *b);
+void banco_carregar(Banco *b);
 void banco_add_cliente(Banco *b, Cliente c);
 void banco_free(Banco *b);
 
