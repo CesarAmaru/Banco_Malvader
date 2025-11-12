@@ -15,15 +15,17 @@ typedef struct {
 
 // ----------------
 
-void banco_init(Banco *b, const char *arq_cli, const char * arq_mov);
-int banco_salvar(Banco *b);
-int banco_carregar(Banco *b);
+void banco_init(Banco *b, const char *arq_cli, const char * arq_mov); // inicializar o Banco Malvader
+int banco_salvar(Banco *b); // salvar os clientes no arquivo clientes.txt
+int banco_carregar(Banco *b); // carregar clientes salvos no arquivo clientes.txt
 int banco_add_cliente(Banco *b, Cliente c);
-void banco_free(Banco *b);
+void banco_free(Banco *b); // limpar memoria alocada para o banco
 int banco_registrar_mov(const Banco *b, const char* conta, const char* tipo, double valor, double saldo_novo);
 int buscar_por_conta (const Banco *b, const char *conta);
 int buscar_por_cpf (const Banco *b, const char *conta);
 int banco_criar_conta(Banco *b);
+int banco_consultar(const Banco *b);
+int banco_encerrar_conta(Banco *b);
 
 
 
