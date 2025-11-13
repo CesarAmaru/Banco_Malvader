@@ -127,6 +127,7 @@ int banco_registrar_mov(const Banco* b, const char* conta, const char* tipo, dou
     fprintf(a, "%02d-%02d-%04d; %s; %s; %.2f; %.2f\n", tempo->tm_mday, tempo->tm_mon + 1, tempo->tm_year + 1900,
         conta, tipo, valor, saldo_novo); // escreve no arquivo movimebntos.txt a data, conta, tipo de movimentação
     //valor e saldo atualizado
+    return 1;
 }
 
 // buscar cliente por conta
@@ -287,5 +288,132 @@ int banco_encerrar_conta(Banco *b) {
 
     printf("CONTA ENCERRADA COM SUCESSO!\n");
 
+    return 1;
+}
+
+// Realizar Dep�sito em conta existente (emite um aviso caso a conta n�o seja encontrada).
+int banco_depositar(Banco *b, const char *conta, double valor) {
+    if (valor <= 0) {
+        printf("Valor inv�lido!\n");
+        return 0;
+    }
+
+    int idx = buscar_por_conta(b, conta);
+    if (idx == -1) {
+        printf("Conta n�o encontrada!\n");
+        return 0;
+    }
+
+    b->clientes[idx].saldo += valor;
+    if (!banco_registrar_mov(b, conta, "DEPÓSITO", valor, b->clientes[idx].saldo)) {
+        printf("FALHA AO REGISTRAR NOVO SALDO!");
+        return 0;
+    }
+
+    if (!banco_salvar(b))
+        return 0;
+
+    printf("Depósito de R$ %.2f realizado com sucesso!\n", valor);
+    return 1;
+}
+
+// Realizar Saque em conta existente.
+int banco_sacar(Banco *b, const char *conta, double valor) {
+    if (valor <= 0) {
+        printf("Valor inv�lido!\n");
+        return 0;
+    }
+
+    int idx = buscar_por_conta(b, conta);
+    if (idx == -1) {
+        printf("Conta n�o encontrada!\n");
+        return 0;
+    }
+
+    if (b->clientes[idx].saldo < valor) {
+        printf("Saldo insuficiente!\n");
+        return 0;
+    }
+
+    b->clientes[idx].saldo -= valor;
+    if (!banco_registrar_mov(b, conta, "SAQUE", valor, b->clientes[idx].saldo))
+        return 0;
+
+    if (!banco_salvar(b))
+        return 0;
+
+    printf("Saque de R$ %.2f realizado com sucesso!\n", valor);
+    return 1;
+}
+
+// Transferir saldo disponível em uma conta existente para outra conta existente.
+int banco_transferir(Banco *b, const char *origem, const char *destino, double valor) {
+    if (valor <= 0) {
+        printf("Valor inv�lido!\n");
+        return 0;
+    }
+
+    int idxOrigem = buscar_por_conta(b, origem);
+    int idxDestino = buscar_por_conta(b, destino);
+
+    if (idxOrigem == -1 || idxDestino == -1) {
+        printf("Conta de origem ou destino n�o encontrada!\n");
+        return 0;
+    }
+
+    if (b->clientes[idxOrigem].saldo < valor) {
+        printf("Saldo insuficiente!\n");
+        return 0;
+    }
+
+    // Atualizar os saldos das contas envolvidas na transação.
+    b->clientes[idxOrigem].saldo -= valor;
+    b->clientes[idxDestino].saldo += valor;
+
+    // Registrar ambas as movimenta��es das contas.
+    banco_registrar_mov(b, origem, "TRANSFER�NCIA SA�DA", valor, b->clientes[idxOrigem].saldo);
+    banco_registrar_mov(b, destino, "TRANSFER�NCIA ENTRADA", valor, b->clientes[idxDestino].saldo);
+
+    banco_salvar(b);
+
+    printf("Transferencia de R$ %.2f realizada com sucesso!\n", valor);
+    return 1;
+}
+
+// Realizar a Listagem dos Clientes cadastrados.
+void banco_listar_clientes(const Banco *b) {
+    if (b->tam == 0) {
+        printf("Nenhum cliente cadastrado.\n");
+        return;
+    }
+
+    printf("=============================================\n");
+    printf("| %-20s | %-10s | %-10s |\n", "Nome", "Conta", "Saldo");
+    printf("=============================================\n");
+
+    for (size_t i = 0; i < b->tam; i++) {
+        if (b->clientes[i].ativo)
+            printf("| %-20s | %-10s | R$ %-8.2f |\n",
+                   b->clientes[i].nome, b->clientes[i].conta, b->clientes[i].saldo);
+    }
+    printf("=============================================\n");
+}
+
+// Realizar a Consulta do saldo dispon�vel em conta.
+int banco_consultar_saldo(const Banco *b, const char *conta) {
+    int idx = buscar_por_conta(b, conta);
+    if (idx == -1) {
+        printf("CONTA NAO ENCONTRADA!\n");
+        return 0;
+    }
+
+    // Mostra os dados da conta do cliente.
+    Cliente c = b->clientes[idx];
+    printf("\n==== DADOS DA CONTA ====\n");
+    printf("Nome: %s\n", c.nome);
+    printf("Conta: %s\n", c.conta);
+    printf("Agencia: %s\n", c.agencia);
+    printf("Saldo atual: R$ %.2f\n", c.saldo);
+    printf("=========================\n");
     return 1;
 }

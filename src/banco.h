@@ -26,6 +26,11 @@ int buscar_por_cpf (const Banco *b, const char *conta);
 int banco_criar_conta(Banco *b);
 int banco_consultar(const Banco *b);
 int banco_encerrar_conta(Banco *b);
+int banco_depositar(Banco *b, const char *conta, double valor);
+int banco_sacar(Banco *b, const char *conta, double valor);
+int banco_transferir(Banco *b, const char *origem, const char *destino, double valor);
+void banco_listar_clientes(const Banco *b);
+int banco_consultar_saldo(const Banco *b, const char *conta);
 
 
 
