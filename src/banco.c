@@ -244,11 +244,11 @@ int banco_consultar(const Banco *b) {
 int banco_encerrar_conta(Banco *b) {
     char conta[16], senha[20]; // receber a conta e a senha
     int pos;
-    Cliente *c;
+    Cliente *temporario;
     printf(" =======================================\n");
     printf("|             ENCERRAR CONTA            |\n");
     printf(" =======================================\n");
-    printf("Digite sua conta: "); ler_linha(conta, sizeof(conta));
+    printf("\nDigite sua conta: "); ler_linha(conta, sizeof(conta));
 
     pos = buscar_por_conta(b, conta);// recebe a posição da conta no arquivo clientes.txt
     if (pos == -1) {
@@ -256,22 +256,22 @@ int banco_encerrar_conta(Banco *b) {
         return 0;
     }
 
-    c = &b->clientes[pos];
-    if (!c->ativo) {
-        printf("Conta ja encerrada!\n");
+    temporario = &b->clientes[pos];
+    if (!temporario->ativo) {
+        printf("CONTA ENCERRADA\n");
         return 0;
     }
 
     printf("Digite sua senha: "); ler_linha(senha, sizeof(senha));
-    if (strcmp(c->senha, senha) != 0) {
+    if (strcmp(temporario->senha, senha) != 0) {
         printf("SENHA INCORRETA!\n");
         return 0;
     }
 
-    if (c->saldo != 0) {
+    if (temporario->saldo != 0) {
         printf("NAO EH POSSIVEL ENCERRAR A CONTA!\n");
-        printf("Para encerrar a conta eh necessario que o saldo da contra seja R$0,00\nSaldo atual: %.2f\n", c->saldo);
-        if (c->saldo > 0)
+        printf("Para encerrar a conta eh necessario que o saldo da contra seja R$0,00\nSaldo atual: %.2f\n", temporario->saldo);
+        if (temporario->saldo > 0)
             printf("Tente fazer um saque!\n");
         else
             printf("Tente fazer um deposito um deposito!\n");
@@ -279,7 +279,7 @@ int banco_encerrar_conta(Banco *b) {
         return 0;
     }
 
-    c->ativo = 0;
+    temporario->ativo = 0;
 
     if (!banco_salvar(b)) {
         printf("ERRO AO SALVAR OS DADOS!\n");
@@ -291,27 +291,46 @@ int banco_encerrar_conta(Banco *b) {
     return 1;
 }
 
-// Realizar Dep�sito em conta existente (emite um aviso caso a conta n�o seja encontrada).
+// Realizar Dep�sito em conta existente (emite um aviso caso a conta não seja encontrada).
 int banco_depositar(Banco *b, const char *conta, double valor) {
+    char senha[20];
+    printf(" =======================================\n");
+    printf("|               DEPOSITAR                |\n");
+    printf(" =======================================\n");
     if (valor <= 0) {
-        printf("Valor inv�lido!\n");
+        printf("Valor inválido!\n");
         return 0;
     }
 
     int idx = buscar_por_conta(b, conta);
     if (idx == -1) {
-        printf("Conta n�o encontrada!\n");
+        printf("Conta não encontrada!\n");
+        return 0;
+    }
+
+    if (!b->clientes[idx].ativo) {
+        printf("Conta está encerrada!\n");
+        return 0;
+    }
+
+    printf("\nDigite sua senha: "); ler_linha(senha, sizeof(senha));
+    if (strcmp(b->clientes[idx].senha, senha) != 0) {
+        printf("SENHA INCORRETA!\n");
         return 0;
     }
 
     b->clientes[idx].saldo += valor;
     if (!banco_registrar_mov(b, conta, "DEPÓSITO", valor, b->clientes[idx].saldo)) {
-        printf("FALHA AO REGISTRAR NOVO SALDO!");
+        printf("NAO FOI POSSIVEL REGISTRAR A TRANSACAO");
         return 0;
     }
 
-    if (!banco_salvar(b))
+
+    if (!banco_salvar(b)) {
+        printf("NAO FOI POSSIVEL SALVAR");
         return 0;
+    }
+
 
     printf("Depósito de R$ %.2f realizado com sucesso!\n", valor);
     return 1;
@@ -319,14 +338,29 @@ int banco_depositar(Banco *b, const char *conta, double valor) {
 
 // Realizar Saque em conta existente.
 int banco_sacar(Banco *b, const char *conta, double valor) {
+    char senha[20];
+    printf(" =======================================\n");
+    printf("|                  SACAR                |\n");
+    printf(" =======================================\n");
     if (valor <= 0) {
-        printf("Valor inv�lido!\n");
+        printf("Valor inválido!\n");
         return 0;
     }
 
     int idx = buscar_por_conta(b, conta);
     if (idx == -1) {
-        printf("Conta n�o encontrada!\n");
+        printf("Conta não encontrada!\n");
+        return 0;
+    }
+
+    if (!b->clientes[idx].ativo) {
+        printf("Conta está encerrada!\n");
+        return 0;
+    }
+
+    printf("\nDigite sua senha: "); ler_linha(senha, sizeof(senha));
+    if (strcmp(b->clientes[idx].senha, senha) != 0) {
+        printf("SENHA INCORRETA!\n");
         return 0;
     }
 
@@ -336,6 +370,7 @@ int banco_sacar(Banco *b, const char *conta, double valor) {
     }
 
     b->clientes[idx].saldo -= valor;
+
     if (!banco_registrar_mov(b, conta, "SAQUE", valor, b->clientes[idx].saldo))
         return 0;
 
@@ -416,4 +451,91 @@ int banco_consultar_saldo(const Banco *b, const char *conta) {
     printf("Saldo atual: R$ %.2f\n", c.saldo);
     printf("=========================\n");
     return 1;
+}
+
+
+int banco_alterar_dados(Banco *b) {
+    char conta[16], senha[20], buffer[250];
+    int pos;
+    Cliente *temporario;
+
+    printf(" =======================================\n");
+    printf("|             ALTERAR DADOS             |\n");
+    printf(" =======================================\n");
+
+    printf("\nDigite sua conta: "); ler_linha(conta, sizeof(conta));
+
+    pos = buscar_por_conta(b, conta);
+    if (pos == -1) {
+        printf("CONTA INEXISTENTE!");
+        return 0;
+    }
+
+    temporario = &b->clientes[pos];
+
+    if (temporario->ativo == 0) {
+        printf("CONTA ENCERRADA\n");
+        return 0;
+    }
+
+    printf("Digite sua senha: "); ler_linha(senha, sizeof(senha));
+    if (strcmp(temporario->senha, senha) != 0) {
+        printf("SENHA INCORRETA\n");
+        return 0;
+    }
+
+    printf("--- DADOS ATUAIS ---\n");
+    cliente_impr(temporario);
+
+    printf("\n--- ALTERAR DADOS ---\n");
+    printf("-> Pressione enter para manter a informacao <-");
+
+    // nome
+    printf("NOME: {%s}", temporario->nome);
+    printf("-> "); ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0) strncpy(temporario, buffer, sizeof(temporario->nome) - 1);
+    //telefone
+    printf("TELEFONE: {%s}", temporario->telefone);
+    printf("-> "); ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0) strncpy(temporario->telefone, buffer, sizeof(temporario->telefone) - 1);
+    //endereço
+    printf("ENDERECO {%s}: ", temporario->endereco);
+    printf("-> "); ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0) strncpy(temporario->endereco, buffer, sizeof(temporario->endereco) - 1);
+
+    // Número da casa
+    printf("Número {%s}: ", temporario->numero_casa);
+    printf("-> "); ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0) strncpy(temporario->numero_casa, buffer, sizeof(temporario->numero_casa) - 1);
+
+    // Bairro
+    printf("Bairro {%s}: ", temporario->bairro);
+    printf("-> "); ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0) strncpy(temporario->bairro, buffer, sizeof(temporario->bairro) - 1);
+
+    // Cidade
+    printf("Cidade {%s}: ", temporario->cidade);
+    printf("-> "); ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0) strncpy(temporario->cidade, buffer, sizeof(temporario->cidade) - 1);
+
+    // CEP
+    printf("CEP {%s}: ", temporario->cep);
+    printf("-> "); ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0) strncpy(temporario->cep, buffer, sizeof(temporario->cep) - 1);
+
+
+    // Senha
+    printf("\nAlterar senha? (s/n): ");
+    ler_linha(buffer, sizeof(buffer));
+    if (buffer[0] == 's' || buffer[0] == 'S') {
+        printf("Nova senha: ");
+        printf("-> "); ler_linha(buffer, sizeof(buffer));
+        if (strlen(buffer) >= 4) {
+            strncpy(temporario->senha, buffer, sizeof(temporario->senha) - 1);
+            printf("Senha alterada!\n");
+        } else {
+            printf("Senha muito curta. Mantendo senha atual.\n");
+        }
+    }
+
 }
