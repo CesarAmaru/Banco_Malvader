@@ -10,6 +10,7 @@ void ler_linha(char *buffer, size_t tamanho);
 double ler_double(void);
 int ler_int(void);
 void limpar_buffer(void);
+void ler_conta_e_valor(char *conta, size_t tam_conta, double *valor);
 
 //--------------------------
 

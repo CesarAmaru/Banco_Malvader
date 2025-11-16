@@ -39,15 +39,17 @@ int banco_add_cliente(Banco *b, Cliente c) {
         Cliente *temporario = realloc(b->clientes, new_cap*sizeof(Cliente)); // realoca mais memoria para b->clientes
 
         if (!temporario) {fprintf(stderr,"MEMORIA INSUFICIENTE!"); return 0;}
+        b->clientes = temporario;
+        b->cap = new_cap;
     }
-    b->clientes[b->tam] = c; // Põe o cliente cadastrado na ultima posição disponivel de b->clientes
+    b->clientes[b->tam] = c; // Põe o cliente cadastrado na última posição disponivel de b->clientes
     b->tam++;
     return 1;
 }
 
 // salvar os clientes no arquivo clientes.txt
 int banco_salvar(Banco *b) {
-    int i;
+    size_t i;
     FILE *a = fopen(b->arq_clientes, "w"); // abre o arquivo de clientes
     if (a == NULL) { // verifica se o arquivo foi aberto com sucesso
         printf("Erro ao abrir o arquivo!");
@@ -132,7 +134,7 @@ int banco_registrar_mov(const Banco* b, const char* conta, const char* tipo, dou
 
 // buscar cliente por conta
 int buscar_por_conta (const Banco *b, const char *conta) {
-    int i;
+    size_t i;
     for (i = 0; i < b->tam; i++) {
         if (strcmp(b->clientes[i].conta, conta) == 0) { // strcmp retorna 0 caso os numeros sejam iguais
             // compara se o número da conta fornecido bate com a conta salva no arquivo .txt
@@ -144,7 +146,7 @@ int buscar_por_conta (const Banco *b, const char *conta) {
 
 // buscar cliente por CPF
 int buscar_por_cpf (const Banco *b, const char *cpf) {
-    int i;
+    size_t i;
     for (i = 0; i < b->tam; i++) {
         if (strcmp(b->clientes[i].cpf, cpf) == 0) { // verifica se o CPF digitado coincide com o CPF do arquivo .txt
             return i; // retorna o posição da conta em b->clientes
@@ -156,10 +158,6 @@ int buscar_por_cpf (const Banco *b, const char *cpf) {
 // criar conta no Banco Malvader
 int banco_criar_conta(Banco *b) {
     Cliente novo = cliente_criar_vazio(); // inicializa um cliente com os campos vazios (função de cliente_data.h)
-
-    printf(" =======================================\n");
-    printf("|      ABERTURA DE NOVA CONTA           |\n");
-    printf(" =======================================\n");
 
     // Informaçoes da nova conta
     printf("AGENCIA (formato -> 0001): "); ler_linha(novo.agencia, sizeof(novo.agencia)); // ler agência
@@ -180,12 +178,12 @@ int banco_criar_conta(Banco *b) {
     // Data de nascimento do cliente
     printf("DATA DE NASCIMENTO (formato -> DD-MM-AAAA): "); ler_linha(novo.data_nasc, sizeof(novo.data_nasc));
     // número de telefone
-    printf("TELEFONE (formato -> 6134567890"); ler_linha(novo.telefone, sizeof(novo.telefone));
+    printf("TELEFONE (formato -> 6134567890): "); ler_linha(novo.telefone, sizeof(novo.telefone));
 
     // Pegar endereço do cliente
     printf("ESTADO (formato -> sigla): "); ler_linha(novo.estado, sizeof(novo.estado));
     printf("ENDERECO COMPLETO: "); ler_linha(novo.endereco, sizeof(novo.endereco));
-    printf("CEP (formato -> 00000-001"); ler_linha(novo.cep, sizeof(novo.cep));
+    printf("CEP (formato -> 00000-001): "); ler_linha(novo.cep, sizeof(novo.cep));
     printf("NUMERO DA CASA: "); ler_linha(novo.numero_casa, sizeof(novo.numero_casa));
     printf("CIDADE: "); ler_linha(novo.cidade, sizeof(novo.cidade));
     printf("BAIRRO: "); ler_linha(novo.bairro, sizeof(novo.bairro));
@@ -294,9 +292,7 @@ int banco_encerrar_conta(Banco *b) {
 // Realizar Dep�sito em conta existente (emite um aviso caso a conta não seja encontrada).
 int banco_depositar(Banco *b, const char *conta, double valor) {
     char senha[20];
-    printf(" =======================================\n");
-    printf("|               DEPOSITAR                |\n");
-    printf(" =======================================\n");
+
     if (valor <= 0) {
         printf("Valor inválido!\n");
         return 0;
@@ -339,9 +335,7 @@ int banco_depositar(Banco *b, const char *conta, double valor) {
 // Realizar Saque em conta existente.
 int banco_sacar(Banco *b, const char *conta, double valor) {
     char senha[20];
-    printf(" =======================================\n");
-    printf("|                  SACAR                |\n");
-    printf(" =======================================\n");
+
     if (valor <= 0) {
         printf("Valor inválido!\n");
         return 0;
@@ -463,11 +457,12 @@ int banco_alterar_dados(Banco *b) {
     printf("|             ALTERAR DADOS             |\n");
     printf(" =======================================\n");
 
-    printf("\nDigite sua conta: "); ler_linha(conta, sizeof(conta));
+    printf("\nDigite sua conta: ");
+    ler_linha(conta, sizeof(conta));
 
     pos = buscar_por_conta(b, conta);
     if (pos == -1) {
-        printf("CONTA INEXISTENTE!");
+        printf("CONTA INEXISTENTE!\n");
         return 0;
     }
 
@@ -478,58 +473,67 @@ int banco_alterar_dados(Banco *b) {
         return 0;
     }
 
-    printf("Digite sua senha: "); ler_linha(senha, sizeof(senha));
+    printf("Digite sua senha: ");
+    ler_linha(senha, sizeof(senha));
     if (strcmp(temporario->senha, senha) != 0) {
         printf("SENHA INCORRETA\n");
         return 0;
     }
 
-    printf("--- DADOS ATUAIS ---\n");
+    printf("\n--- DADOS ATUAIS ---\n");
     cliente_impr(temporario);
 
     printf("\n--- ALTERAR DADOS ---\n");
-    printf("-> Pressione enter para manter a informacao <-");
+    printf("-> Pressione enter para manter a informacao <-\n\n");
 
-    // nome
-    printf("NOME: {%s}", temporario->nome);
-    printf("-> "); ler_linha(buffer, sizeof(buffer));
-    if (strlen(buffer) > 0) strncpy(temporario, buffer, sizeof(temporario->nome) - 1);
-    //telefone
-    printf("TELEFONE: {%s}", temporario->telefone);
-    printf("-> "); ler_linha(buffer, sizeof(buffer));
-    if (strlen(buffer) > 0) strncpy(temporario->telefone, buffer, sizeof(temporario->telefone) - 1);
-    //endereço
+    // Nome
+    printf("NOME {%s}: ", temporario->nome);
+    ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0)
+        strncpy(temporario->nome, buffer, sizeof(temporario->nome) - 1);
+
+    // Telefone
+    printf("TELEFONE {%s}: ", temporario->telefone);
+    ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0)
+        strncpy(temporario->telefone, buffer, sizeof(temporario->telefone) - 1);
+
+    // Endereço
     printf("ENDERECO {%s}: ", temporario->endereco);
-    printf("-> "); ler_linha(buffer, sizeof(buffer));
-    if (strlen(buffer) > 0) strncpy(temporario->endereco, buffer, sizeof(temporario->endereco) - 1);
+    ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0)
+        strncpy(temporario->endereco, buffer, sizeof(temporario->endereco) - 1);
 
     // Número da casa
-    printf("Número {%s}: ", temporario->numero_casa);
-    printf("-> "); ler_linha(buffer, sizeof(buffer));
-    if (strlen(buffer) > 0) strncpy(temporario->numero_casa, buffer, sizeof(temporario->numero_casa) - 1);
+    printf("NUMERO {%s}: ", temporario->numero_casa);
+    ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0)
+        strncpy(temporario->numero_casa, buffer, sizeof(temporario->numero_casa) - 1);
 
     // Bairro
-    printf("Bairro {%s}: ", temporario->bairro);
-    printf("-> "); ler_linha(buffer, sizeof(buffer));
-    if (strlen(buffer) > 0) strncpy(temporario->bairro, buffer, sizeof(temporario->bairro) - 1);
+    printf("BAIRRO {%s}: ", temporario->bairro);
+    ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0)
+        strncpy(temporario->bairro, buffer, sizeof(temporario->bairro) - 1);
 
     // Cidade
-    printf("Cidade {%s}: ", temporario->cidade);
-    printf("-> "); ler_linha(buffer, sizeof(buffer));
-    if (strlen(buffer) > 0) strncpy(temporario->cidade, buffer, sizeof(temporario->cidade) - 1);
+    printf("CIDADE {%s}: ", temporario->cidade);
+    ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0)
+        strncpy(temporario->cidade, buffer, sizeof(temporario->cidade) - 1);
 
     // CEP
     printf("CEP {%s}: ", temporario->cep);
-    printf("-> "); ler_linha(buffer, sizeof(buffer));
-    if (strlen(buffer) > 0) strncpy(temporario->cep, buffer, sizeof(temporario->cep) - 1);
-
+    ler_linha(buffer, sizeof(buffer));
+    if (strlen(buffer) > 0)
+        strncpy(temporario->cep, buffer, sizeof(temporario->cep) - 1);
 
     // Senha
     printf("\nAlterar senha? (s/n): ");
     ler_linha(buffer, sizeof(buffer));
     if (buffer[0] == 's' || buffer[0] == 'S') {
         printf("Nova senha: ");
-        printf("-> "); ler_linha(buffer, sizeof(buffer));
+        ler_linha(buffer, sizeof(buffer));
         if (strlen(buffer) >= 4) {
             strncpy(temporario->senha, buffer, sizeof(temporario->senha) - 1);
             printf("Senha alterada!\n");
@@ -538,4 +542,12 @@ int banco_alterar_dados(Banco *b) {
         }
     }
 
+    // Salvar alterações
+    if (!banco_salvar(b)) {
+        printf("Erro ao salvar alteracoes!\n");
+        return 0;
+    }
+
+    printf("\nDados alterados com sucesso!\n");
+    return 1;
 }

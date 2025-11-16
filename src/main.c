@@ -1,97 +1,120 @@
 #include <stdio.h>
 #include "banco.h"
 #include "io.h"
+
 int main(void) {
     Banco banco;
-    banco_init(&banco, "data/clientes.txt", "data/movimentos.txt");
-    banco_carregar(&banco);
-    banco_free(&banco);
+    int op = 0;
+    char conta[16];
+    double valor;
 
-    int op = 0; //Variavel de controle para o switch.
+    // Inicializar o banco
+    banco_init(&banco, "data/clientes.txt", "data/movimentos.txt");
+
+    // Carregar clientes existentes
+    if (!banco_carregar(&banco)) {
+        printf("Aviso: Não foi possível carregar clientes existentes.\n");
+    }
 
     do {
-
-        //Menu principal com opções principais do Banco.
+        // Menu principal
         printf("\n====================================\n");
         printf("        Seja Bem-Vindo(a)!!         \n");
         printf("====================================\n");
-        printf("Escolha uma opção:\n");
+        printf("Escolha uma opcao:\n");
         printf(" [1] - Abrir Nova Conta\n");
         printf(" [2] - Encerrar Conta\n");
         printf(" [3] - Consultar Dados do Cliente\n");
         printf(" [4] - Alterar Dados do Cliente\n");
-        printf(" [5] - Realizar Depósito\n");
+        printf(" [5] - Realizar Deposito\n");
         printf(" [6] - Realizar Saque\n");
-        printf(" [7] - Listar Contas por Nome\n");
-        printf(" [8] - Listar Contas por Número\n");
-        printf(" [9] - Consultar Saldo da Conta\n");
+        printf(" [7] - Listar Contas\n");
+        printf(" [8] - Consultar Saldo da Conta\n");
         printf(" [0] - Sair\n");
         printf("====================================\n");
-        scanf("%d", &op); //Lê a opção selecionada pelo usuário.
+        printf("Opcao: ");
 
-        switch(op){
+        op = ler_int();
+
+        switch(op) {
             case 1:
-                 /* abrir conta, ler campos com ler_linha, chamar banco_abrir_conta */
-                 banco_criar_conta();
-                 break;
+                // Abrir conta
+                banco_criar_conta(&banco);
+                break;
 
             case 2:
-                 /* encerrar conta, chamar banco_encerrar_conta */
-                 break;
+                // Encerrar conta
+                banco_encerrar_conta(&banco);
+                break;
 
             case 3:
-                 /* consultar, chamar banco_consultar_cliente e imprimir_dados_cliente */
-                 break;
+                // Consultar dados
+                banco_consultar(&banco);
+                break;
 
             case 4:
-                 /* alterar dados, montar Cliente com novos campos permitidos, banco_alterar_dados */
-                 break;
+                // Alterar dados
+                banco_alterar_dados(&banco);
+                break;
 
             case 5:
-                 /* depósito, banco_depositar */
-                 char conta[20];
-                 double valor;
+                // Depósito
+                printf("\n====================================\n");
+                printf("           DEPOSITO                 \n");
+                printf("====================================\n");
+                printf("Digite o numero da conta: ");
+                ler_linha(conta, sizeof(conta));
 
-                 printf("Digite o número da conta: ");
-                 ler_linha(conta, sizeof(conta));
+                printf("Digite o valor do deposito: R$ ");
+                valor = ler_double();
 
-                 printf("Digite o valor do depósito: ");
-                 scanf("%lf", &valor);
-                 getchar();
-
-                 banco_depositar(Banco *b, conta, valor);
-                 break;
+                banco_depositar(&banco, conta, valor);
+                break;
 
             case 6:
-                 /* saque, banco_sacar */
+                // Saque
+                printf("\n====================================\n");
+                printf("             SAQUE                  \n");
+                printf("====================================\n");
+                printf("Digite o numero da conta: ");
+                ler_linha(conta, sizeof(conta));
 
-                 char conta[20];
-                 double valor;
+                printf("Digite o valor do saque: R$ ");
+                valor = ler_double();
 
-                 printf("Digite o número da conta: ");
-                 ler_linha(conta, sizeof(conta));
-
-                 printf("Digite o valor do saque: ");
-                 scanf("%lf", &valor);
-                 getchar();
-
-                 banco_sacar(Banco &banco, conta, valor);
-                 break;
+                banco_sacar(&banco, conta, valor);
+                break;
 
             case 7:
-                 /* listar por nome, banco_listar_ordenado_por_nome */
-                 break;
+                // Listar contas
+                banco_listar_clientes(&banco);
+                break;
 
             case 8:
-                 /* listar por conta, banco_listar_ordenado_por_conta */
-                 break;
+                // Consultar saldo
+                printf("\n====================================\n");
+                printf("         CONSULTAR SALDO            \n");
+                printf("====================================\n");
+                printf("Digite o numero da conta: ");
+                ler_linha(conta, sizeof(conta));
 
-            case 9:
-                 /* consultar saldo, banco_listar_ordenado_por_conta */
-                 banco_consultar_saldo();
-                 break;
+                banco_consultar_saldo(&banco, conta);
+                break;
+
+            case 0:
+                printf("\nEncerrando sistema...\n");
+                printf("Ate logo!\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida! Tente novamente.\n");
+                break;
         }
+
     } while(op != 0);
+
+    // Liberar memória antes de sair
     banco_free(&banco);
 
+    return 0;
 }
