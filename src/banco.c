@@ -320,7 +320,7 @@ int banco_depositar(Banco *b, const char *conta, double valor) {
 
     //realizar transacao
     b->clientes[idx].saldo += valor;
-    if (!banco_registrar_mov(b, conta, "DEPoSITO", valor, b->clientes[idx].saldo)) {
+    if (!banco_registrar_mov(b, conta, "DEPOSITO", valor, b->clientes[idx].saldo)) {
         printf("NAO FOI POSSIVEL REGISTRAR A TRANSACAO");
         return 0;
     }
