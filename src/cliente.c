@@ -11,13 +11,13 @@ Cliente cliente_criar_vazio(void) {
     return c;
 }
 
-// Implementação: Imprime dados do cliente
+// Implementaçao: Imprime dados do cliente
 void cliente_impr(const Cliente *c) {
     printf("\n=====DADOS DO CLIENTE=====\n");
-    printf("CONTA: %s\n", c->conta);
-    printf("AGENCIA: %s\n", c->agencia);
-    printf("NOME: %s", c->nome);
-    printf("CPF: %s\n", c->cpf);
-    printf("SALDO: %.2f\n", c->saldo);
-    printf("STATUS: %s\n", c->ativo ? "ATIVO" : "INATIVO");
+    printf("CONTA: %s\n", c->conta); //imprimir conta
+    printf("AGENCIA: %s\n", c->agencia); //imprimir agencia
+    printf("NOME: %s", c->nome); //imprimir nome
+    printf("CPF: %s\n", c->cpf); // imprimir CPF
+    printf("SALDO: %.2f\n", c->saldo);// imprimir saldo
+    printf("STATUS: %s\n", c->ativo ? "ATIVO" : "INATIVO");// imprimir status
 }

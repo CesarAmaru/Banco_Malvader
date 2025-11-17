@@ -5,7 +5,7 @@
 int main(void) {
     Banco banco;
     int op = 0;
-    char conta[16];
+    char conta[16], conta_dest[16];
     double valor;
 
     // Inicializar o banco
@@ -13,10 +13,11 @@ int main(void) {
 
     // Carregar clientes existentes
     if (!banco_carregar(&banco)) {
-        printf("Aviso: Não foi possível carregar clientes existentes.\n");
+        printf("Aviso: Nao foi possivel carregar clientes existentes.\n");
     }
 
     do {
+        limpar_tela();
         // Menu principal
         printf("\n====================================\n");
         printf("        Seja Bem-Vindo(a)!!         \n");
@@ -28,8 +29,8 @@ int main(void) {
         printf(" [4] - Alterar Dados do Cliente\n");
         printf(" [5] - Realizar Deposito\n");
         printf(" [6] - Realizar Saque\n");
-        printf(" [7] - Listar Contas\n");
-        printf(" [8] - Consultar Saldo da Conta\n");
+        printf(" [7] - Realizar Transferencia\n");
+        printf(" [8] - Listar Contas\n");
         printf(" [0] - Sair\n");
         printf("====================================\n");
         printf("Opcao: ");
@@ -58,7 +59,7 @@ int main(void) {
                 break;
 
             case 5:
-                // Depósito
+                // Deposito
                 printf("\n====================================\n");
                 printf("           DEPOSITO                 \n");
                 printf("====================================\n");
@@ -86,19 +87,24 @@ int main(void) {
                 break;
 
             case 7:
-                // Listar contas
-                banco_listar_clientes(&banco);
+                // Saque
+                printf("\n====================================\n");
+                printf("              Transferencia            \n");
+                printf("====================================\n");
+                printf("Digite o numero da conta origem: ");
+                ler_linha(conta, sizeof(conta));
+                printf("Digite o numero da conta destino: ");
+                ler_linha(conta_dest, sizeof(conta_dest));
+
+                printf("Digite o valor da transeferencia: R$ ");
+                valor = ler_double();
+
+                banco_transferir(&banco, conta, conta_dest, valor);
                 break;
 
             case 8:
-                // Consultar saldo
-                printf("\n====================================\n");
-                printf("         CONSULTAR SALDO            \n");
-                printf("====================================\n");
-                printf("Digite o numero da conta: ");
-                ler_linha(conta, sizeof(conta));
-
-                banco_consultar_saldo(&banco, conta);
+                // Listar contas
+                banco_listar_clientes(&banco);
                 break;
 
             case 0:
@@ -113,7 +119,7 @@ int main(void) {
 
     } while(op != 0);
 
-    // Liberar memória antes de sair
+    // Liberar memoria antes de sair
     banco_free(&banco);
 
     return 0;

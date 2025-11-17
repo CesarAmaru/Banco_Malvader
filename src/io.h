@@ -11,6 +11,7 @@ double ler_double(void);
 int ler_int(void);
 void limpar_buffer(void);
 void ler_conta_e_valor(char *conta, size_t tam_conta, double *valor);
+void limpar_tela(void);
 
 //--------------------------
 

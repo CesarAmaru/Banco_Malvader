@@ -1,6 +1,8 @@
 #include "io.h"
 #include <stdio.h>
 #include <string.h>
+#include <windows.h> // para utilizar o sleep no windows
+#include <unistd.h> // para o sleep funcionar, caso o SO seja Linux
 
 void ler_linha(char *buffer, size_t tamanho) {
     if (fgets(buffer, tamanho, stdin)) {
@@ -8,12 +10,16 @@ void ler_linha(char *buffer, size_t tamanho) {
     }
 }
 
+//ler valor double
 double ler_double(void) {double valor; scanf("%lf", &valor); limpar_buffer(); return valor;}
 
+//ler valor int
 int ler_int(void) {int valor; scanf("%d", &valor); limpar_buffer(); return valor;}
 
+//limpar buffer
 void limpar_buffer(void) {int l; while ((l = getchar()) != '\n' && l != EOF);}
 
+//ler conta e valor
 void ler_conta_e_valor(char *conta, size_t tam_conta, double *valor) {
     if (!conta || tam_conta == 0 || !valor) return;
     printf("Conta: ");
@@ -21,7 +27,7 @@ void ler_conta_e_valor(char *conta, size_t tam_conta, double *valor) {
 
     printf("Valor: ");
     if (scanf("%lf", valor) != 1) {
-        // leitura inválida -> zera e limpa buffer
+        // leitura invalida -> zera e limpa buffer
         *valor = 0.0;
         int c;
         while ((c = getchar()) != '\n' && c != EOF) {}
@@ -30,4 +36,19 @@ void ler_conta_e_valor(char *conta, size_t tam_conta, double *valor) {
     // consumir o '\n' que ficou no buffer do stdin
     int c;
     while ((c = getchar()) != '\n' && c != EOF) {}
+}
+
+//limpar tela
+void limpar_tela(void) {
+    printf("Redirecionando para o menu...");
+#ifdef _WIN32 //se o SO for windows
+    Sleep(5000);
+    system("cls");
+#else//se for mac ou linux
+    sleep(10000)
+    system("clear");
+#endif
+
+
+    void limpar_tela(void);
 }
