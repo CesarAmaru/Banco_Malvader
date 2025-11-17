@@ -44,10 +44,10 @@ void limpar_tela(void) {
     limpar_buffer();
     printf("\nRedirecionando para o menu...");
 #ifdef _WIN32 //se o SO for windows
-    Sleep(5000); //Sleep para delay
+    Sleep(3000); //Sleep para delay
     system("cls");
 #else//se for mac ou linux
-    sleep(10000)
+    sleep(3000)
     system("clear");
 #endif
 
