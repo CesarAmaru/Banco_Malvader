@@ -1,0 +1,25 @@
+
+
+
+
+= EXECUTAR NO TERMINAL (WINDOWS) =
+Pré-requisitos: 
+- CMake instalado
+- Compilador C. ex: MinGW-w64, clang, msvc.
+
+1. Abra o CMD, com win+R
+2. copie e cole -> cd "C:\Endereço\Da\Pasta do Projeto\Banco Malvader"
+3. digite compile.bat (compila o projeto)
+4. digite run.bat (executa o projeto banco)
+5. ou digite start.bat (compila e executa o projeto)
+
+
+
+____________________________________________
+
+= EXECUTAR COM CLion =
+
+1. Abra o projeto no CLion (File → Open)
+2. Aguarde o CMake carregar automaticamente
+3. Clique no botão de Build ou pressione Ctrl+F9
+4. Execute com Shift+F10
