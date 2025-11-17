@@ -22,6 +22,7 @@ void quicksort_clientes(Cliente *v, int left, int right, int (*cmp)(const Client
     int i = left, j = right;
     Cliente pivot = v[(left + right) / 2];
 
+
     while (i <= j) {
         while (cmp(&v[i], &pivot) < 0) i++;
         while (cmp(&v[j], &pivot) > 0) j--;
