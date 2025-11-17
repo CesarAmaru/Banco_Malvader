@@ -40,7 +40,9 @@ void ler_conta_e_valor(char *conta, size_t tam_conta, double *valor) {
 
 //limpar tela
 void limpar_tela(void) {
-    printf("Redirecionando para o menu...");
+    printf("\nPressione enter para retornar ao menu.\n");
+    limpar_buffer();
+    printf("\nRedirecionando para o menu...");
 #ifdef _WIN32 //se o SO for windows
     Sleep(5000);
     system("cls");

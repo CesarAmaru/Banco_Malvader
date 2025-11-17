@@ -17,7 +17,6 @@ int main(void) {
     }
 
     do {
-        limpar_tela();
         // Menu principal
         printf("\n====================================\n");
         printf("        Seja Bem-Vindo(a)!!         \n");
@@ -41,21 +40,25 @@ int main(void) {
             case 1:
                 // Abrir conta
                 banco_criar_conta(&banco);
+                limpar_tela();
                 break;
 
             case 2:
                 // Encerrar conta
                 banco_encerrar_conta(&banco);
+                limpar_tela();
                 break;
 
             case 3:
                 // Consultar dados
                 banco_consultar(&banco);
+                limpar_tela();
                 break;
 
             case 4:
                 // Alterar dados
                 banco_alterar_dados(&banco);
+                limpar_tela();
                 break;
 
             case 5:
@@ -70,6 +73,7 @@ int main(void) {
                 valor = ler_double();
 
                 banco_depositar(&banco, conta, valor);
+                limpar_tela();
                 break;
 
             case 6:
@@ -84,6 +88,7 @@ int main(void) {
                 valor = ler_double();
 
                 banco_sacar(&banco, conta, valor);
+                limpar_tela();
                 break;
 
             case 7:
@@ -100,11 +105,13 @@ int main(void) {
                 valor = ler_double();
 
                 banco_transferir(&banco, conta, conta_dest, valor);
+                limpar_tela();
                 break;
 
             case 8:
                 // Listar contas
                 banco_listar_clientes(&banco);
+                limpar_tela();
                 break;
 
             case 0:

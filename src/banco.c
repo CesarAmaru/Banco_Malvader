@@ -97,7 +97,7 @@ int banco_carregar(Banco* b) {
             c.endereco, c.cep, c.numero_casa, c.bairro,
             c.cidade, c.estado, c.senha, &c.saldo, &ativo_temp); // Percorre cada linha para pegar os dados dos clientes
 
-        if (campos == 15) { // Verifica se a quantidade de dados dos cleintes corresponde com a da Struct
+        if (campos == 15) { // Verifica se a quantidade de dados dos clientes corresponde com a da Struct
             c.ativo = ativo_temp;
             if (banco_add_cliente(b, c)) { // Carrega os clientes para Banco b
                 carregados++;
