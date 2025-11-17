@@ -1,7 +1,3 @@
-
-
-
-
 = EXECUTAR NO TERMINAL (WINDOWS) =
 Pré-requisitos: 
 - CMake instalado
