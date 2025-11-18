@@ -22,15 +22,9 @@ typedef struct {
     int ativo;
 }Cliente;
 
-typedef struct {
-    Cliente *dados;
-    size_t tamanho;
-    size_t capacidade;
-} ListaClientes;
 
 //---------------------------------------
 
-void cliente_ini(Cliente *c);
 void cliente_impr(const Cliente *c);
 Cliente cliente_criar_vazio(void);
 

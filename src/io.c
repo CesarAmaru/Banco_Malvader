@@ -54,3 +54,32 @@ void limpar_tela(void) {
 
     void limpar_tela(void);
 }
+
+// Realizar a Listagem dos Clientes cadastrados.
+void menu_listagem(Banco *banco) {
+    int op_list;
+
+    printf("\n====================================\n");
+    printf("           LISTAR CONTAS            \n");
+    printf("====================================\n");
+    printf(" [1] - Listar por Numero da Conta\n");
+    printf(" [2] - Listar por Nome\n");
+    printf("Opcao: ");
+    op_list = ler_int();
+
+    switch(op_list) {
+        case 1:
+            ordenar_por_conta(banco->clientes, banco->tam);
+            banco_listar_clientes(banco);
+            break;
+
+        case 2:
+            ordenar_por_nome(banco->clientes, banco->tam);
+            banco_listar_clientes(banco);
+            break;
+
+        default:
+            printf("Opcao invalida!\n");
+            break;
+    }
+}

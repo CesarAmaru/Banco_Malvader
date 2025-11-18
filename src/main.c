@@ -30,9 +30,8 @@ int main(void) {
         printf(" [5] - Realizar Deposito\n");
         printf(" [6] - Realizar Saque\n");
         printf(" [7] - Realizar Transferencia\n");
-        printf(" [8] - Listar por Conta\n");
-        printf(" [9] - Listar por Nome\n");
-        printf(" [10] - Reativar Conta\n");
+        printf(" [8] - Listar Contas\n");
+        printf(" [9] - Reativar Conta\n");
         printf(" [0] - Sair\n");
         printf("====================================\n");
         printf("Opcao: ");
@@ -113,11 +112,11 @@ int main(void) {
 
             case 8:
                 // Listar contas
-                banco_listar_clientes(&banco);
+                menu_listagem(&banco);
                 limpar_tela();
                 break;
 
-            case 10:
+            case 9:
                 // Listar contas
                 banco_reativar_conta(&banco);
                 limpar_tela();

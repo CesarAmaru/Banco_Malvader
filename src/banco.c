@@ -66,7 +66,7 @@ int banco_salvar(Banco *b) {
     } // salva os dados no arquivo clientes.txt
 
     fclose(a); // fecha o arquivo para evitar problemas ao decorrer do codigo
-    printf("Dados salvos com sucesso!");
+    printf("\nDados salvos com sucesso!\n");
     return 1;
 }
 
@@ -247,7 +247,7 @@ int banco_encerrar_conta(Banco *b) {
 
     temporario = &b->clientes[pos];
     if (!temporario->ativo) {
-        printf("CONTA ENCERRADA\n"); //verifica se a conta ja esta encerrada
+        printf("CONTA JA ENCERRADA\n"); //verifica se a conta ja esta encerrada
         return 0;
     }
 
@@ -368,7 +368,7 @@ int banco_sacar(Banco *b, const char *conta, double valor) {
     }
 
 
-    printf("Saque de R$ %.2f realizado com sucesso!\n", valor);
+    printf("\nSaque de R$ %.2f realizado com sucesso!\n", valor);
     return 1;
 }
 
@@ -422,7 +422,7 @@ int banco_transferir(Banco *b, const char *origem, const char *destino, double v
     return 1;
 }
 
-// Realizar a Listagem dos Clientes cadastrados.
+
 void banco_listar_clientes(const Banco *b) {
     if (b->tam == 0) {
         printf("Nenhum cliente cadastrado.\n");
