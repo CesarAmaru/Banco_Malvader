@@ -145,16 +145,6 @@ int buscar_por_conta (const Banco *b, const char *conta) {
     return -1; // caso nao seja encontrado, o valor retornado eh -1
 }
 
-// buscar cliente por CPF
-int buscar_por_cpf (const Banco *b, const char *cpf) {
-    size_t i;
-    for (i = 0; i < b->tam; i++) {
-        if (strcmp(b->clientes[i].cpf, cpf) == 0) { // verifica se o CPF digitado coincide com o CPF do arquivo .txt
-            return i; // retorna o posiçao da conta em b->clientes
-        }
-    }
-    return -1;
-}
 
 // criar conta no Banco Malvader
 int banco_criar_conta(Banco *b) {
@@ -229,7 +219,7 @@ int banco_consultar(const Banco *b) {
 
     pos = buscar_por_conta(b, conta); //buscar conta. Retorna a posicao da conta
     if (pos == -1) { // verifica se a conta esta correta
-        printf("CONTA INVALIDA!\n");
+        printf("CONTA NAO ENCONTRADA!\n");
         return 0;
     }
 
@@ -251,7 +241,7 @@ int banco_encerrar_conta(Banco *b) {
 
     pos = buscar_por_conta(b, conta);// recebe a posiçao da conta no arquivo clientes.txt
     if (pos == -1) {
-        printf("CONTA INEXISTENTE!\n");
+        printf("CONTA NAO ENCONTRADA!\n");
         return 0;
     }
 
@@ -279,7 +269,7 @@ int banco_encerrar_conta(Banco *b) {
         return 0;
     }
 
-    temporario->ativo = 0;
+    temporario->ativo = 0; // ativo = 0 -> conta desativada
 
     if (!banco_salvar(b)) { //salva a alteracao
         printf("ERRO AO SALVAR OS DADOS!\n");
@@ -303,7 +293,7 @@ int banco_depositar(Banco *b, const char *conta, double valor) {
     // validacao da conta
     int idx = buscar_por_conta(b, conta);
     if (idx == -1) {
-        printf("Conta nao encontrada!\n");
+        printf("CONTA NAO ENCONTRADA!\n");
         return 0;
     }
 
@@ -327,7 +317,7 @@ int banco_depositar(Banco *b, const char *conta, double valor) {
 
 
     if (!banco_salvar(b)) {
-        printf("NAO FOI POSSIVEL SALVAR");
+        printf("ERRO AO SALVAR OS DADOS!\n");
         return 0;
     }
 
@@ -347,7 +337,7 @@ int banco_sacar(Banco *b, const char *conta, double valor) {
     //validar conta
     int idx = buscar_por_conta(b, conta);
     if (idx == -1) {
-        printf("Conta nao encontrada!\n");
+        printf("CONTA NAO ENCONTRADA!\n");
         return 0;
     }
 
@@ -372,8 +362,11 @@ int banco_sacar(Banco *b, const char *conta, double valor) {
     if (!banco_registrar_mov(b, conta, "SAQUE", valor, b->clientes[idx].saldo))
         return 0;
 
-    if (!banco_salvar(b))
+    if (!banco_salvar(b)) {
+        printf("ERRO AO SALVAR OS DADOS!\n");
         return 0;
+    }
+
 
     printf("Saque de R$ %.2f realizado com sucesso!\n", valor);
     return 1;
@@ -463,7 +456,7 @@ int banco_alterar_dados(Banco *b) {
 
     pos = buscar_por_conta(b, conta);
     if (pos == -1) {
-        printf("CONTA INEXISTENTE!\n");
+        printf("CONTA NAO ENCONTRADA!\n");
         return 0;
     }
 
@@ -551,4 +544,39 @@ int banco_alterar_dados(Banco *b) {
 
     printf("\nDados alterados com sucesso!\n");
     return 1;
+}
+
+//Reativar conta
+int banco_reativar_conta(Banco *b){
+    char conta[16], senha[20];
+    Cliente *temp;
+    int pos;
+    printf(" =======================================\n");
+    printf("|             REATIVAR CONTA            |\n");
+    printf(" =======================================\n");
+    printf("Digite sua conta: "); ler_linha(conta, sizeof(conta));
+
+    pos = buscar_por_conta(b, conta);
+    if (pos == -1){
+        printf("CONTA NAO ENCONTRADA!\n");
+        return 0;
+    }
+
+    temp = &b->clientes[pos];
+
+    printf("Digite sua senha: "); ler_linha(senha,sizeof(senha));
+    if (strcmp(temp->senha, senha) != 0) {
+        printf("SENHA INCORRETA!\n");
+        return 0;
+    }
+
+    temp->ativo = 1; // ativo = 1 -> conta ativa
+
+    if (!banco_salvar(b)) {
+        printf("Nao foi possivel reativar sua conta!");
+        return 0;
+    }
+
+    return 1;
+
 }

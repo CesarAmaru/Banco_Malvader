@@ -22,10 +22,10 @@ int banco_add_cliente(Banco *b, Cliente c);
 void banco_free(Banco *b); // limpar memoria alocada para o banco
 int banco_registrar_mov(const Banco *b, const char* conta, const char* tipo, double valor, double saldo_novo);
 int buscar_por_conta (const Banco *b, const char *conta);
-int buscar_por_cpf (const Banco *b, const char *conta);
 int banco_criar_conta(Banco *b);
 int banco_consultar(const Banco *b);
 int banco_encerrar_conta(Banco *b);
+int banco_reativar_conta(Banco *b);
 int banco_depositar(Banco *b, const char *conta, double valor);
 int banco_sacar(Banco *b, const char *conta, double valor);
 int banco_transferir(Banco *b, const char *origem, const char *destino, double valor);
