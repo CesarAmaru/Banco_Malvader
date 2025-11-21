@@ -5,53 +5,54 @@
 #include <time.h>
 #include "cliente_data.h"
 #include "io.h"
+#include "ordenacao.h"
 
-// inicializar o Banco Malvader
+// inicializar o Banco Malvader.
 void banco_init(Banco *b, const char *arq_cli, const char *arq_mov) {
-    b->clientes = NULL; // Começa a funçao com 0 dados de clientes
-    b->tam = 0; // zera o tamanho (numero de clientes) do banco
-    b->cap = 0; // zera a capacidade de armazenamento de clientes
+    b->clientes = NULL; // Começa a funçao com 0 dados de clientes.
+    b->tam = 0; // Reinicia o valor o tamanho (numero de clientes) do banco.
+    b->cap = 0; // Reinicia a capacidade de armazenamento de clientes.
 
-    // Faz a copia dos dados em arq_cli (endereço do arquivo clientes.txt) para b->arq_clientes
-    strncpy(b->arq_clientes, arq_cli, sizeof(b->arq_clientes) - 1); // -1 deixa um bite livre
+    // Faz a copia dos dados em arq_cli (endereço do arquivo clientes.txt) para b->arq_clientes.
+    strncpy(b->arq_clientes, arq_cli, sizeof(b->arq_clientes) - 1); // -1 deixa um bite livre.
     // Copia os dados do arquivo movimentos.txt para b->arq_mov
     strncpy(b->arq_movs, arq_mov, sizeof(b->arq_movs) - 1);
 
-    b->arq_clientes[sizeof(b->arq_clientes) - 1] = '\0'; // usa o bite livre para adicionar o caractere nulo \0
+    b->arq_clientes[sizeof(b->arq_clientes) - 1] = '\0'; // usa o bite livre para adicionar o caractere nulo \0.
     b->arq_movs[sizeof(b->arq_movs) - 1 ] = '\0';
 }
 
-// limpar memoria alocada para o banco
+// Limpar memoria alocada para o banco.
 void banco_free(Banco *b) {
     if (b->clientes) {
-        free(b->clientes); // Libera a memoria alocada
-        b->clientes = NULL; // Apaga o endereço de memoria que estava apontando para um endereço vazio
+        free(b->clientes); // Libera a memoria alocada.
+        b->clientes = NULL; // Apaga o endereço de memoria que estava apontando para um endereço vazio.
     }
     b->tam = 0;
     b->cap = 0;
 }
 
-// adicionar cliente ao banco
+// Adicionar cliente ao banco.
 int banco_add_cliente(Banco *b, Cliente c) {
-    if (b->tam == b->cap) { // verifica se o tamanho da quantidade de clientes ja atingiu o limite
-        size_t new_cap = (b->cap == 0) ? 4 : b->cap*2; // se sim, realoca mais 4 "espaços" ou dobra o tamanho
+    if (b->tam == b->cap) {     // Verifica se o tamanho da quantidade de clientes ja atingiu o limite.
+        size_t new_cap = (b->cap == 0) ? 4 : b->cap*2;      // Se sim, realoca mais 4 "espaços" ou dobra o tamanho.
 
-        Cliente *temporario = realloc(b->clientes, new_cap*sizeof(Cliente)); // realoca mais memoria para b->clientes
+        Cliente *temporario = realloc(b->clientes, new_cap*sizeof(Cliente)); // Realoca mais memoria para b->clientes.
 
         if (!temporario) {fprintf(stderr,"MEMORIA INSUFICIENTE!"); return 0;}
         b->clientes = temporario;
         b->cap = new_cap;
     }
-    b->clientes[b->tam] = c; // Poe o cliente cadastrado na ultima posiçao disponivel de b->clientes
+    b->clientes[b->tam] = c; // Adiciona o cliente cadastrado na ultima posicao disponivel de b->clientes.
     b->tam++;
     return 1;
 }
 
-// salvar os clientes no arquivo clientes.txt
+// Salvar os clientes no arquivo clientes.txt .
 int banco_salvar(Banco *b) {
     size_t i;
-    FILE *a = fopen(b->arq_clientes, "w"); // abre o arquivo de clientes
-    if (a == NULL) { // verifica se o arquivo foi aberto com sucesso
+    FILE *a = fopen(b->arq_clientes, "w"); // Abre o arquivo de clientes.
+    if (a == NULL) { // Verifica se o arquivo foi aberto com sucesso.
         printf("Erro ao abrir o arquivo!");
         return 0;
     }
@@ -63,58 +64,56 @@ int banco_salvar(Banco *b) {
                 c.agencia, c.conta, c.nome, c.cpf, c.data_nasc,
                 c.telefone, c.endereco, c.cep, c.numero_casa,
                 c.bairro, c.cidade, c.estado, c.senha, c.saldo, c.ativo);
-    } // salva os dados no arquivo clientes.txt
+    } // Salva os dados no arquivo clientes.txt .
 
-    fclose(a); // fecha o arquivo para evitar problemas ao decorrer do codigo
-    printf("\nDados salvos com sucesso!\n");
+    fclose(a); // Fecha o arquivo para evitar problemas ao decorrer do codigo.
+    printf("Dados salvos com sucesso!");
     return 1;
 }
 
-// carregar clientes salvos no arquivo clientes.txt
+// Carregar clientes salvos no arquivo clientes.txt .
 int banco_carregar(Banco* b) {
-    FILE *a = fopen(b->arq_clientes, "r"); // abre o arquivo clientes
-    char linha[1024]; // cria um vetor para a quantidade de linhas do arquivo
-    int carregados = 0; // Quantos
+    FILE *a = fopen(b->arq_clientes, "r"); // Abre o arquivo clientes.
+    char linha[1024]; // Cria um vetor para a quantidade de linhas do arquivo.
+    int carregados = 0; // Quantos clientes foram carregados.
 
-    if (a == NULL) { // Verifica se o arquivo foi aberto com sucesso
+    if (a == NULL) { // Verifica se o arquivo foi aberto com sucesso.
         printf("Arquivo nao encontrado. Iniciando banco vazio.\n");
         return 1;
     }
 
-
-
-    // Le linha por linha
+    // Ler linha por linha.
     while (fgets(linha, sizeof(linha), a)) {
         Cliente c = {0};
         int ativo_temp;
         linha[strcspn(linha, "\n")] = '\0';
 
         int campos = sscanf(linha,
-            "%7[^;];%15[^;];%99[^;];%14[^;];%10[^;];%19[^;];"
-            "%119[^;];%9[^;];%9[^;];%59[^;];%59[^;];"
-            "%2[^;];%19[^;];%lf;%d",
+            "%7[^;];%15[^;];%99[^;];%17[^;];%14[^;];%19[^;];"
+            "%119[^;];%11[^;];%9[^;];%59[^;];%59[^;];"
+            "%4[^;];%19[^;];%lf;%d",
             c.agencia, c.conta, c.nome, c.cpf, c.data_nasc, c.telefone,
             c.endereco, c.cep, c.numero_casa, c.bairro,
-            c.cidade, c.estado, c.senha, &c.saldo, &ativo_temp); // Percorre cada linha para pegar os dados dos clientes
+            c.cidade, c.estado, c.senha, &c.saldo, &ativo_temp); // Percorre cada linha para pegar os dados dos clientes.
 
-        if (campos == 15) { // Verifica se a quantidade de dados dos clientes corresponde com a da Struct
+        if (campos == 15) { // Verifica se a quantidade de dados dos clientes corresponde com a da Struct.
             c.ativo = ativo_temp;
-            if (banco_add_cliente(b, c)) { // Carrega os clientes para Banco b
+            if (banco_add_cliente(b, c)) { // Carrega os clientes para Banco b.
                 carregados++;
             } else {
-                fprintf(stderr, "Erro ao adicionar cliente durante carregamento\n"); // se houver algum erro
+                fprintf(stderr, "Erro ao adicionar cliente durante carregamento\n"); // Se houver algum erro.
                 fclose(a);
                 return 0;
             }
         }
     }
 
-    fclose(a); // fecha o arquivo
+    fclose(a); // Fecha o arquivo.
     printf("Carregados %d clientes com sucesso!\n", carregados);
     return 1;
 }
 
-// registrar movimentaçoes
+// Registrar movimentaçoes.
 int banco_registrar_mov(const Banco* b, const char* conta, const char* tipo, double valor, double saldo_novo) {
     FILE *a = fopen(b->arq_movs, "a");
     if (a == NULL) {
@@ -122,56 +121,56 @@ int banco_registrar_mov(const Banco* b, const char* conta, const char* tipo, dou
         return 0;
     }
 
-    time_t agora = time(NULL); // cria uma variavel do tipo time_t (da biblioteca time)
-    struct  tm *tempo = localtime(&agora); // pega a data com base no sistema
+    time_t agora = time(NULL); // Cria uma variavel do tipo time_t (da biblioteca time).
+    struct  tm *tempo = localtime(&agora); // Pega a data com base no sistema.
 
-    // Formato: DD-MM-AAAA;CONTA;TIPO;VALOR;SALDO
+    // Formato: DD-MM-AAAA;CONTA;TIPO;VALOR;SALDO.
     fprintf(a, "%02d-%02d-%04d; %s; %s; %.2f; %.2f\n", tempo->tm_mday, tempo->tm_mon + 1, tempo->tm_year + 1900,
-        conta, tipo, valor, saldo_novo); // escreve no arquivo movimebntos.txt a data, conta, tipo de movimentaçao
-    //valor e saldo atualizado
+        conta, tipo, valor, saldo_novo); // Escreve no arquivo movimentos.txt a data, conta, tipo de movimentaçao.
+    // Valor e saldo atualizado.
     fclose(a);
     return 1;
 }
 
-// buscar cliente por conta
+// Buscar cliente por conta.
 int buscar_por_conta (const Banco *b, const char *conta) {
     size_t i;
     for (i = 0; i < b->tam; i++) {
-        if (strcmp(b->clientes[i].conta, conta) == 0) { // strcmp retorna 0 caso os numeros sejam iguais
-            // compara se o numero da conta fornecido bate com a conta salva no arquivo .txt
-            return i; // retorna a posiçao em que a conta se encontra em b->clientes
+        if (strcmp(b->clientes[i].conta, conta) == 0) { // strcmp retorna 0 caso os numeros sejam iguais.
+            // Compara se o numero da conta fornecido bate com a conta salva no arquivo .txt .
+            return i; // Retorna a posiçao em que a conta se encontra em b->clientes.
         }
     }
-    return -1; // caso nao seja encontrado, o valor retornado eh -1
+    return -1; // Caso nao seja encontrado, o valor retornado e -1.
 }
 
 
-// criar conta no Banco Malvader
+// Criar conta no Banco Malvader.
 int banco_criar_conta(Banco *b) {
-    Cliente novo = cliente_criar_vazio(); // inicializa um cliente com os campos vazios (funçao de cliente_data.h)
+    Cliente novo = cliente_criar_vazio(); // inicializa um cliente com os campos vazios (funçao de cliente_data.h).
 
-    // Informaçoes da nova conta
-    printf("AGENCIA (formato -> 0001): "); ler_linha(novo.agencia, sizeof(novo.agencia)); // ler agencia
-    printf("CONTA (formato -> 123456-7): "); ler_linha(novo.conta, sizeof(novo.conta)); // ler conta
-    if (buscar_por_conta(b, novo.conta) != -1) { // verifica se a conta ja existe
-        // -1 eh retornado caso nenhuma conta com mesmos digitos for encontrada em clientes.txt
+    // Informaçoes da nova conta.
+    printf("AGENCIA (formato -> 0001): "); ler_linha(novo.agencia, sizeof(novo.agencia)); // Ler agencia.
+    printf("CONTA (formato -> 123456-7): "); ler_linha(novo.conta, sizeof(novo.conta)); // Ler conta.
+    if (buscar_por_conta(b, novo.conta) != -1) {    // Verifica se a conta ja existe.
+        // Retorna -1 caso nenhuma conta com mesmos digitos for encontrada em clientes.txt .
         printf("Essa conta ja eaxiste!!");
         return 0;
     }
 
-    printf("NOME COMPLETO: "); ler_linha(novo.nome, sizeof(novo.nome)); // le nome
+    printf("NOME COMPLETO: "); ler_linha(novo.nome, sizeof(novo.nome)); // Ler nome.
 
-    printf("CPF (formato -> 123.456.789-00): "); ler_linha(novo.cpf, sizeof(novo.cpf)); // Pegar CPF
-    if (buscar_por_conta(b, novo.cpf) != -1) {// verifica se o CPF ja existe
+    printf("CPF (formato -> 123.456.789-00): "); ler_linha(novo.cpf, sizeof(novo.cpf)); // Pegar CPF.
+    if (buscar_por_conta(b, novo.cpf) != -1) {  // Verifica se o CPF ja existe.
         printf("Esse CPF ja foi cadastrado!");
         return 0;
     }
-    // Data de nascimento do cliente
+    // Data de nascimento do cliente.
     printf("DATA DE NASCIMENTO (formato -> DD-MM-AAAA): "); ler_linha(novo.data_nasc, sizeof(novo.data_nasc));
-    // numero de telefone
+    // Numero de telefone.
     printf("TELEFONE (formato -> 6134567890): "); ler_linha(novo.telefone, sizeof(novo.telefone));
 
-    // Pegar endereço do cliente
+    // Pegar endereço do cliente.
     printf("ESTADO (formato -> sigla): "); ler_linha(novo.estado, sizeof(novo.estado));
     printf("ENDERECO COMPLETO: "); ler_linha(novo.endereco, sizeof(novo.endereco));
     printf("CEP (formato -> 00000-001): "); ler_linha(novo.cep, sizeof(novo.cep));
@@ -179,7 +178,7 @@ int banco_criar_conta(Banco *b) {
     printf("CIDADE: "); ler_linha(novo.cidade, sizeof(novo.cidade));
     printf("BAIRRO: "); ler_linha(novo.bairro, sizeof(novo.bairro));
 
-    // Criar senha para conta
+    // Criar senha para conta.
     printf("\n CRIE UMA SENHA (minimo 4 caracteres)\n");
     printf("SENHA: "); ler_linha(novo.senha, sizeof(novo.senha));
     if (strlen(novo.senha) < 4) {
@@ -187,16 +186,16 @@ int banco_criar_conta(Banco *b) {
         return 0;
     }
 
-    novo.saldo = 0; // conta criada com zerado
-    novo.ativo = 1; // marca a conta como ativa
+    novo.saldo = 0;     // Conta criada com zerado.
+    novo.ativo = 1;     // Marca a conta como ativa.
 
-    // Adiciona o cliente (vai executar a funçao e so depois fazer a verificaçao)
+    // Adiciona o cliente (vai executar a funçao e so depois fazer a verificacao).
     if (!banco_add_cliente(b, novo)) {
         printf("\nERRO AO TENTAR ADICIONAR CLIENTE!\n");
         return 0;
     }
 
-    if (!banco_salvar(b)) { // salva a conta no arquivo clientes.txt
+    if (!banco_salvar(b)) {     // Salva a conta no arquivo clientes.txt .
         printf("\nErro ao salvar dados!\n");
         return 0;
     }
@@ -207,31 +206,31 @@ int banco_criar_conta(Banco *b) {
     return 1;
 }
 
-// consultar dados da conta do cliente
+// Consultar dados da conta do cliente.
 int banco_consultar(const Banco *b) {
-    int pos; //posicao da conta no b->clientes
+    int pos;    // Posicao da conta no b->clientes.
     char conta[16];
     printf(" =======================================\n");
     printf("|             CONSULTAR CONTA            |\n");
     printf(" =======================================\n");
 
-    printf("Digite sua conta: "); ler_linha(conta, sizeof(conta)); //pegar conta
+    printf("Digite sua conta: "); ler_linha(conta, sizeof(conta));  // Pegar conta.
 
-    pos = buscar_por_conta(b, conta); //buscar conta. Retorna a posicao da conta
-    if (pos == -1) { // verifica se a conta esta correta
+    pos = buscar_por_conta(b, conta); // Buscar conta. Retorna a posicao da conta.
+    if (pos == -1) {    // Verifica se a conta esta correta.
         printf("CONTA NAO ENCONTRADA!\n");
         return 0;
     }
 
     printf(" =======================================\n");
-    cliente_impr(&b->clientes[pos]);// imprimir os dados do cliente
+    cliente_impr(&b->clientes[pos]);    //  Imprimir os dados do cliente.
 
     return 1;
 }
 
 // encerrar conta
 int banco_encerrar_conta(Banco *b) {
-    char conta[16], senha[20]; // receber a conta e a senha
+    char conta[16], senha[20];  // Receber a conta e a senha.
     int pos;
     Cliente *temporario;
     printf(" =======================================\n");
@@ -239,7 +238,7 @@ int banco_encerrar_conta(Banco *b) {
     printf(" =======================================\n");
     printf("\nDigite sua conta: "); ler_linha(conta, sizeof(conta));
 
-    pos = buscar_por_conta(b, conta);// recebe a posiçao da conta no arquivo clientes.txt
+    pos = buscar_por_conta(b, conta);   // Recebe a posiçao da conta no arquivo clientes.txt .
     if (pos == -1) {
         printf("CONTA NAO ENCONTRADA!\n");
         return 0;
@@ -247,17 +246,17 @@ int banco_encerrar_conta(Banco *b) {
 
     temporario = &b->clientes[pos];
     if (!temporario->ativo) {
-        printf("CONTA JA ENCERRADA\n"); //verifica se a conta ja esta encerrada
+        printf("CONTA ENCERRADA\n");     // Verifica se a conta ja esta encerrada.
         return 0;
     }
 
-    printf("Digite sua senha: "); ler_linha(senha, sizeof(senha)); // autenticacao
+    printf("Digite sua senha: "); ler_linha(senha, sizeof(senha));  // Autenticacao.
     if (strcmp(temporario->senha, senha) != 0) {
         printf("SENHA INCORRETA!\n");
         return 0;
     }
 
-        //verifica o saldo antes de encerrar. O saldo deve ser 0
+    // Verifica o saldo antes de encerrar. O saldo deve ser 0.
     if (temporario->saldo != 0) {
         printf("NAO EH POSSIVEL ENCERRAR A CONTA!\n");
         printf("Para encerrar a conta eh necessario que o saldo da contra seja R$0,00\nSaldo atual: %.2f\n", temporario->saldo);
@@ -269,9 +268,9 @@ int banco_encerrar_conta(Banco *b) {
         return 0;
     }
 
-    temporario->ativo = 0; // ativo = 0 -> conta desativada
+    temporario->ativo = 0; // Ativo = 0 -> conta desativada.
 
-    if (!banco_salvar(b)) { //salva a alteracao
+    if (!banco_salvar(b)) { // Salva a alteracao.
         printf("ERRO AO SALVAR OS DADOS!\n");
         return 0;
     }
@@ -285,12 +284,12 @@ int banco_encerrar_conta(Banco *b) {
 int banco_depositar(Banco *b, const char *conta, double valor) {
     char senha[20];
 
-    if (valor <= 0) { // verifica se o valor eh um valor valido para a operacao
+    if (valor <= 0) { // Verifica se o valor eh um valor valido para a operacao.
         printf("Valor invalido!\n");
         return 0;
     }
 
-    // validacao da conta
+    // Validacao da conta.
     int idx = buscar_por_conta(b, conta);
     if (idx == -1) {
         printf("CONTA NAO ENCONTRADA!\n");
@@ -308,19 +307,17 @@ int banco_depositar(Banco *b, const char *conta, double valor) {
         return 0;
     }
 
-    //realizar transacao
+    // Realizar transacao.
     b->clientes[idx].saldo += valor;
     if (!banco_registrar_mov(b, conta, "DEPOSITO", valor, b->clientes[idx].saldo)) {
         printf("NAO FOI POSSIVEL REGISTRAR A TRANSACAO");
         return 0;
     }
 
-
     if (!banco_salvar(b)) {
         printf("ERRO AO SALVAR OS DADOS!\n");
         return 0;
     }
-
 
     printf("Deposito de R$ %.2f realizado com sucesso!\n", valor);
     return 1;
@@ -330,11 +327,11 @@ int banco_depositar(Banco *b, const char *conta, double valor) {
 int banco_sacar(Banco *b, const char *conta, double valor) {
     char senha[20];
 
-    if (valor <= 0) { // confere se o valor eh valido
+    if (valor <= 0) { // Confere se o valor eh valido.
         printf("Valor invalido!\n");
         return 0;
     }
-    //validar conta
+    // Validar conta.
     int idx = buscar_por_conta(b, conta);
     if (idx == -1) {
         printf("CONTA NAO ENCONTRADA!\n");
@@ -351,7 +348,7 @@ int banco_sacar(Banco *b, const char *conta, double valor) {
         printf("SENHA INCORRETA!\n");
         return 0;
     }
-    //confere se o cliente possui o valor para ser sacado
+    // Confere se o cliente possui o valor para ser sacado.
     if (b->clientes[idx].saldo < valor) {
         printf("Saldo insuficiente!\n");
         return 0;
@@ -367,8 +364,7 @@ int banco_sacar(Banco *b, const char *conta, double valor) {
         return 0;
     }
 
-
-    printf("\nSaque de R$ %.2f realizado com sucesso!\n", valor);
+    printf("Saque de R$ %.2f realizado com sucesso!\n", valor);
     return 1;
 }
 
@@ -379,7 +375,7 @@ int banco_transferir(Banco *b, const char *origem, const char *destino, double v
         printf("Valor invalido!\n");
         return 0;
     }
-    // verificacao das contas origem e destino
+    // Verificacao das contas origem e destino.
     int idxOrigem = buscar_por_conta(b, origem);
     int idxDestino = buscar_por_conta(b, destino);
 
@@ -387,7 +383,7 @@ int banco_transferir(Banco *b, const char *origem, const char *destino, double v
         printf("Conta de origem ou destino nao encontrada!\n");
         return 0;
     }
-    // verificar se nao esta transferindo para si mesmo
+    // Verificar se nao esta transferindo para si mesmo.
     if (idxOrigem == idxDestino) {
         printf("Transferencia para mesma contas invalida!");
         return 0;
@@ -399,13 +395,13 @@ int banco_transferir(Banco *b, const char *origem, const char *destino, double v
         printf("SENHA INCORRETA\n");
         return 0;
     }
-    //confere se o o cliente possui saldo para fazer a operacao
+    // Confere se o o cliente possui saldo para fazer a operacao.
     if (b->clientes[idxOrigem].saldo < valor) {
         printf("Saldo insuficiente!\n");
         return 0;
     }
 
-    // Atualizar os saldos das contas envolvidas na transaçao.
+    // Atualizar os saldos das contas envolvidas na transacao.
     b->clientes[idxOrigem].saldo -= valor;
     b->clientes[idxDestino].saldo += valor;
 
@@ -413,7 +409,7 @@ int banco_transferir(Banco *b, const char *origem, const char *destino, double v
     banco_registrar_mov(b, origem, "TRANSFERENCIA SAiDA", valor, b->clientes[idxOrigem].saldo);
     banco_registrar_mov(b, destino, "TRANSFERENCIA ENTRADA", valor, b->clientes[idxDestino].saldo);
 
-    if (!banco_salvar(b)) { //salva a alteracao
+    if (!banco_salvar(b)) { // Salva a alteracao.
         printf("ERRO AO SALVAR OS DADOS!\n");
         return 0;
     }
@@ -422,7 +418,7 @@ int banco_transferir(Banco *b, const char *origem, const char *destino, double v
     return 1;
 }
 
-
+// Realizar a Listagem dos Clientes cadastrados.
 void banco_listar_clientes(const Banco *b) {
     if (b->tam == 0) {
         printf("Nenhum cliente cadastrado.\n");
@@ -441,9 +437,9 @@ void banco_listar_clientes(const Banco *b) {
     printf("=============================================\n");
 }
 
-// alterar dados de cliente
+// Alterar dados de cliente.
 int banco_alterar_dados(Banco *b) {
-    char conta[16], senha[20], buffer[250]; //buffer temporario para pegar as novas informacoes
+    char conta[16], senha[20], buffer[250]; // Buffer temporario para pegar as novas informacoes.
     int pos;
     Cliente *temporario;
 
@@ -480,49 +476,49 @@ int banco_alterar_dados(Banco *b) {
     printf("\n--- ALTERAR DADOS ---\n");
     printf("-> Pressione enter para manter a informacao <-\n\n");
 
-    // Nome
+    // Nome.
     printf("NOME {%s}: ", temporario->nome);
     ler_linha(buffer, sizeof(buffer));
     if (strlen(buffer) > 0)
         strncpy(temporario->nome, buffer, sizeof(temporario->nome) - 1);
 
-    // Telefone
+    // Telefone.
     printf("TELEFONE {%s}: ", temporario->telefone);
     ler_linha(buffer, sizeof(buffer));
     if (strlen(buffer) > 0)
         strncpy(temporario->telefone, buffer, sizeof(temporario->telefone) - 1);
 
-    // Endereço
+    // Endereço.
     printf("ENDERECO {%s}: ", temporario->endereco);
     ler_linha(buffer, sizeof(buffer));
     if (strlen(buffer) > 0)
         strncpy(temporario->endereco, buffer, sizeof(temporario->endereco) - 1);
 
-    // Numero da casa
+    // Numero da casa.
     printf("NUMERO {%s}: ", temporario->numero_casa);
     ler_linha(buffer, sizeof(buffer));
     if (strlen(buffer) > 0)
         strncpy(temporario->numero_casa, buffer, sizeof(temporario->numero_casa) - 1);
 
-    // Bairro
+    // Bairro.
     printf("BAIRRO {%s}: ", temporario->bairro);
     ler_linha(buffer, sizeof(buffer));
     if (strlen(buffer) > 0)
         strncpy(temporario->bairro, buffer, sizeof(temporario->bairro) - 1);
 
-    // Cidade
+    // Cidade.
     printf("CIDADE {%s}: ", temporario->cidade);
     ler_linha(buffer, sizeof(buffer));
     if (strlen(buffer) > 0)
         strncpy(temporario->cidade, buffer, sizeof(temporario->cidade) - 1);
 
-    // CEP
+    // CEP.
     printf("CEP {%s}: ", temporario->cep);
     ler_linha(buffer, sizeof(buffer));
     if (strlen(buffer) > 0)
         strncpy(temporario->cep, buffer, sizeof(temporario->cep) - 1);
 
-    // Senha
+    // Senha.
     printf("\nAlterar senha? (s/n): ");
     ler_linha(buffer, sizeof(buffer));
     if (buffer[0] == 's' || buffer[0] == 'S') {
@@ -536,7 +532,7 @@ int banco_alterar_dados(Banco *b) {
         }
     }
 
-    // Salvar alteraçooes
+    // Salvar alteracoes.
     if (!banco_salvar(b)) {
         printf("Erro ao salvar alteracoes!\n");
         return 0;
@@ -546,7 +542,7 @@ int banco_alterar_dados(Banco *b) {
     return 1;
 }
 
-//Reativar conta
+// Reativar conta.
 int banco_reativar_conta(Banco *b){
     char conta[16], senha[20];
     Cliente *temp;
@@ -578,5 +574,90 @@ int banco_reativar_conta(Banco *b){
     }
 
     return 1;
+}
 
+// Menu com os tipos de listagem de contas (numero da conta ou nome).
+void banco_menu_listagem(Banco *banco) {
+    int op_list;
+
+    printf("\n====================================\n");
+    printf("           LISTAR CONTAS            \n");
+    printf("====================================\n");
+    printf(" [1] - Listar por Numero da Conta\n");
+    printf(" [2] - Listar por Nome\n");
+    printf("Opcao: ");
+    op_list = ler_int();
+
+    switch(op_list) {
+        case 1:
+            ordenar_por_conta(banco->clientes, banco->tam);
+            banco_listar_clientes(banco);
+            break;
+
+        case 2:
+            ordenar_por_nome(banco->clientes, banco->tam);
+            banco_listar_clientes(banco);
+            break;
+
+        default:
+            printf("Opcao invalida!\n");
+            break;
+    }
+}
+
+// Menu de Deposito em conta.
+void banco_ui_depositar(Banco *b) {
+    char conta[16];
+    double valor;
+
+    printf("\n====================================\n");
+    printf("           DEPOSITO                 \n");
+    printf("====================================\n");
+
+    printf("Digite o numero da conta: ");
+    ler_linha(conta, sizeof(conta));
+
+    printf("Digite o valor do deposito: R$ ");
+    valor = ler_double();
+
+    banco_depositar(b, conta, valor);
+}
+
+// Menu de Saque em conta.
+void banco_ui_sacar(Banco *b) {
+    char conta[16];
+    double valor;
+
+    printf("\n====================================\n");
+    printf("              SAQUE                 \n");
+    printf("====================================\n");
+
+    printf("Digite o numero da conta: ");
+    ler_linha(conta, sizeof(conta));
+
+    printf("Digite o valor do saque: R$ ");
+    valor = ler_double();
+
+    banco_sacar(b, conta, valor);
+}
+
+// Menu de Transferencias entre contas.
+void banco_ui_transferir(Banco *b) {
+    char conta_origem[16], conta_destino[16];
+    double valor;
+
+    printf("\n====================================\n");
+    printf("          TRANSFERENCIA             \n");
+    printf("====================================\n");
+
+    printf("Digite o numero da conta origem: ");
+    ler_linha(conta_origem, sizeof(conta_origem));
+
+    printf("Digite o numero da conta destino: ");
+    ler_linha(conta_destino, sizeof(conta_destino));
+
+    printf("Digite o valor da transferencia: R$ ");
+    valor = ler_double();
+
+    banco_transferir(b, conta_origem, conta_destino, valor);
 }
