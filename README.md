@@ -174,6 +174,7 @@ INPUT                  = ./src
 RECURSIVE              = YES
 GENERATE_HTML          = YES
 GENERATE_LATEX         = YES
+OUTPUT_DIRECTORY = docs
 ```
 
 > Para o README virar a página inicial da documentação:
