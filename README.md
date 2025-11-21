@@ -192,7 +192,7 @@ doxygen Doxyfile
 ### 4 Abrir no navegador
 
 ```
-html/index.html
+docs/html/index.html
 ```
 
 ---
@@ -215,10 +215,10 @@ doxygen Doxyfile
 
 ## Autores
 
-**Cesar Amaru**
-**Carlos Eduardo Estrela**
-**Thyago Oliveira**
-**Samuel RIbeiro Braga**
+**Cesar Amaru**,
+**Carlos Eduardo Estrela**,
+**Thyago Oliveira**,
+**Samuel RIbeiro Braga**,
 **Yan Gabriel Pereira**
 
 ---
