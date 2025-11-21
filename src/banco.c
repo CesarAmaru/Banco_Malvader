@@ -67,7 +67,7 @@ int banco_salvar(Banco *b) {
     } // Salva os dados no arquivo clientes.txt .
 
     fclose(a); // Fecha o arquivo para evitar problemas ao decorrer do codigo.
-    printf("Dados salvos com sucesso!");
+    printf("Dados salvos com sucesso!\n");
     return 1;
 }
 
