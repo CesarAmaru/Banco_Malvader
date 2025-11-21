@@ -1,4 +1,4 @@
-= EXECUTAR NO TERMINAL (WINDOWS) =
+=== EXECUTAR NO TERMINAL (WINDOWS) ===
 Pré-requisitos: 
 - CMake instalado
 - Compilador C. ex: MinGW-w64, clang, msvc.
@@ -19,3 +19,25 @@ ____________________________________________
 2. Aguarde o CMake carregar automaticamente
 3. Clique no botão de Build ou pressione Ctrl+F9
 4. Execute com Shift+F10
+
+
+
+
+===  EXECUTAR DOXYGEN ===
+Pré-requisitos: 
+- Doxygen instalado na máquina
+
+1. Abra o CMD, com win+R
+2. copie e cole -> cd "C:\Endereço\Da\Pasta do Projeto\Banco Malvader"
+3. execute "doxygen -g"
+4. digite "doxygen Doxyfile"
+
+-> Para vizualizar HTML:
+1. digite "start html/index.html" ou "start docs/html/index.html"
+
+-> Para vizualizar PDF:
+1. Crie um arquivo .zip da pasta "latex"
+2. Acesse o site Overleaf.com (é gratuito, basta criar conta)
+3. Crie um "New Project" -> "Upload Project"
+4. Suba o seu .zip
+
