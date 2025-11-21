@@ -1,4 +1,3 @@
-
 # Banco Malvader – Sistema Bancário em C
 
 Sistema bancário modular em linguagem C, desenvolvido como projeto acadêmico.  
@@ -19,17 +18,17 @@ Toda a documentação do código-fonte é gerada automaticamente com **Doxygen**
 
 ## Funcionalidades
 
-- Cadastro de clientes
-- Depósito
-- Saque
-- Transferência entre contas
-- Alteração de dados
-- Consulta de saldos
-- Exclusão lógica de clientes (marcando como inativo)
-- Reativação de contas
+- Cadastro de clientes  
+- Depósito  
+- Saque  
+- Transferência entre contas  
+- Alteração de dados  
+- Consulta de saldos  
+- Exclusão lógica de clientes (marcando como inativo)  
+- Reativação de contas  
 - Ordenação:
-  - por nome
-  - por número da conta
+  - por nome  
+  - por número da conta  
 - Registro de movimentações em arquivo
 
 ---
@@ -62,10 +61,10 @@ Banco_Malvader/
 
 ---
 
-## Módulos principais
+## Estrutura dos Módulos
 
-### `banco.c`  
-Contém a lógica principal do sistema bancário:
+### `banco.c`
+Responsável por:
 
 - depósito  
 - saque  
@@ -73,54 +72,82 @@ Contém a lógica principal do sistema bancário:
 - carregamento e gravação de dados  
 - busca de clientes
 
-### `cliente.c` / `cliente_data.h`  
+### `cliente.c` / `cliente_data.h`
 Define a estrutura `Cliente` e funções associadas.
 
-### `ordenacao.c`  
-Implementa `quicksort` e comparadores para ordenar:
+### `ordenacao.c`
+Implementa `quicksort` e comparadores:
 
 - por nome  
 - por número da conta
 
-### `io.c`  
-Funções de leitura e validação do usuário:
+### `io.c`
+Funções de entrada e validação:
 
-- leitura de `int`, `double`, strings  
-- limpeza de buffer  
+- leitura de `int`, `double` e strings  
+- tratamento de buffer  
 - leitura formatada para conta e valor
 
-### `main.c`  
+### `main.c`
 Controla:
 
-- o menu do programa  
+- o menu  
 - chamadas aos módulos  
-- execução do loop principal
+- laço principal de execução
 
 ---
 
 ## Requisitos
 
-- GCC (ou outro compilador C)
-- CMake (opcional)
-- Doxygen (para gerar documentação)
+- GCC, Clang, MSVC ou outro compilador C.  
+- CMake (opcional).  
+- Doxygen (para documentação).  
+- LaTeX (MiKTeX, TexLive ou MacTex – para gerar PDF).
 
-### Verificar se o compilador está instalado
+---
+
+## Executar no Terminal (Windows)
+
+Pré-requisitos:
+
+- CMake instalado  
+- Compilador C (MinGW-w64, Clang, MSVC…)
+
+### Passo a passo
+
+1. Pressione `Win + R`, digite:  
+   ```
+   cmd
+   ```
+2. Vá até o diretório do projeto, por exemplo:
 
 ```bash
-gcc --version
+cd "C:\Users\...\Banco_Malvader"
 ```
 
-### Verificar Doxygen
+3. Para compilar:
 
-```bash
-doxygen --version
+```
+compile.bat
+```
+
+4. Para executar:
+
+```
+run.bat
+```
+
+5. Ou compilação + execução automática:
+
+```
+start.bat
 ```
 
 ---
 
-## Como compilar
+## Compilar manualmente com GCC
 
-### Via GCC (modo rápido)
+### Linux
 
 ```bash
 gcc -o banco src/*.c
@@ -136,7 +163,7 @@ banco.exe
 
 ---
 
-## Compilar usando CMake
+## Compilando com CMake
 
 ```bash
 mkdir build
@@ -146,7 +173,7 @@ make
 ./banco
 ```
 
-Windows:
+### Windows
 
 ```bash
 mkdir build
@@ -159,67 +186,170 @@ banco.exe
 ---
 
 ## Gerar documentação com Doxygen
+Pré-requisitos:
+- Doxygen instalado na máquina
 
-### 1 Criar Doxyfile (se ainda não existir)
-
+### 1. Criar Doxyfile
+Vá até o diretório do projeto, e digite:
 ```bash
 doxygen -g
 ```
 
-### 2 Editar no Doxyfile:
+### 2. Configurar
+
+No Doxyfile altere:
 
 ```
-PROJECT_NAME           = "Banco Malvader"
-INPUT                  = ./src
-RECURSIVE              = YES
-GENERATE_HTML          = YES
-GENERATE_LATEX         = YES
+PROJECT_NAME     = "Banco Malvader"
+INPUT            = ./src
+RECURSIVE        = YES
+GENERATE_HTML    = YES
+GENERATE_LATEX   = YES
 OUTPUT_DIRECTORY = docs
 ```
 
-> Para o README virar a página inicial da documentação:
+Para usar o README como página inicial:
 
 ```
 USE_MDFILE_AS_MAINPAGE = README.md
 ```
 
-### 3 Gerar documentação
+### 3. Gerar documentação
 
 ```bash
 doxygen Doxyfile
 ```
 
-### 4 Abrir no navegador
+---
 
+# Visualizar HTML
+
+```bash
+start html/index.html
 ```
-docs/html/index.html
+
+ou
+
+```bash
+start docs/html/index.html
 ```
 
 ---
 
-## Alguns comandos úteis
+# Gerar PDF da Documentação com LaTeX
 
-Eliminar build do CMake:
+## 1. Instalar LaTeX
+
+### Windows (recomendado)
+Instalar MiKTeX:
+
+https://miktex.org/download
+
+Marque:
+
+```
+Install missing packages automatically
+```
+
+### Linux (Ubuntu/Debian)
+
+```bash
+sudo apt update
+sudo apt install texlive-full
+```
+
+### macOS
+
+```bash
+brew install mactex
+```
+
+---
+
+## 2. Compilar PDF
+
+Depois de gerar o LaTeX com o Doxygen:
+
+```bash
+cd latex
+```
+
+Use o XeLaTeX (melhor para Unicode):
+
+```bash
+xelatex refman.tex
+xelatex refman.tex
+```
+
+O PDF será criado em:
+
+```
+latex/refman.pdf
+```
+
+---
+
+## 3. Abrir o PDF
+
+### Windows
+
+```bash
+start refman.pdf
+```
+
+### Linux
+
+```bash
+xdg-open refman.pdf
+```
+
+### macOS
+
+```bash
+open refman.pdf
+```
+
+---
+
+# Compilar pelo CLion
+
+1. Abrir o projeto  
+2. Esperar o CMake carregar  
+3. `Ctrl + F9` para compilar  
+4. `Shift + F10` para executar
+
+---
+
+## Comandos Úteis
+
+Apagar build do CMake:
 
 ```bash
 rm -rf build
 ```
 
-Regenerar docs:
+Gerar documentação novamente:
 
 ```bash
 doxygen Doxyfile
+```
+
+Recompilar PDF:
+
+```bash
+cd latex
+xelatex refman.tex
 ```
 
 ---
 
 ## Autores
 
-**Cesar Amaru**,
-**Carlos Eduardo Estrela**,
-**Thyago Oliveira**,
-**Samuel RIbeiro Braga**,
-**Yan Gabriel Pereira**
+- Carlos Eduardo Estrela  
+- Cesar Amaru  
+- Thyago Oliveira  
+- Samuel Ribeiro Braga  
+- Yan Gabriel Pereira
 
 ---
 
