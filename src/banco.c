@@ -144,6 +144,15 @@ int buscar_por_conta (const Banco *b, const char *conta) {
     return -1; // Caso nao seja encontrado, o valor retornado e -1.
 }
 
+int buscar_por_cpf (const Banco *b, const char *cpf) {
+    size_t i;
+    for (i = 0; i < b->tam; i++) {
+        if (strcmp(b->clientes[i].cpf, cpf) == 0)// Compara se o numero do CPF fornecido bate com o CPF salva no arquivo .txt.
+            return i;
+    }
+    return -1;
+}
+
 
 // Criar conta no Banco Malvader.
 int banco_criar_conta(Banco *b) {
@@ -161,7 +170,7 @@ int banco_criar_conta(Banco *b) {
     printf("NOME COMPLETO: "); ler_linha(novo.nome, sizeof(novo.nome)); // Ler nome.
 
     printf("CPF (formato -> 123.456.789-00): "); ler_linha(novo.cpf, sizeof(novo.cpf)); // Pegar CPF.
-    if (buscar_por_conta(b, novo.cpf) != -1) {  // Verifica se o CPF ja existe.
+    if (buscar_por_cpf(b, novo.cpf) != -1) {  // Verifica se o CPF ja existe.
         printf("Esse CPF ja foi cadastrado!");
         return 0;
     }

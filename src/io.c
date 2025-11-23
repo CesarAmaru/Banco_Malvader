@@ -48,7 +48,7 @@ void limpar_tela(void) {
     Sleep(3000);        // Sleep para delay.
     system("cls");      // Realiza limpeza de tela.
 #else       // Se for mac ou linux
-    sleep(3000)     // Tempo de delay.
+    sleep(3);     // Tempo de delay.
     system("clear");        // Limpa a tela do usuario.
 #endif
 

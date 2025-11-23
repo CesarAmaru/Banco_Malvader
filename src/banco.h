@@ -102,6 +102,15 @@ int banco_registrar_mov(const Banco *b, const char* conta, const char* tipo, dou
 int buscar_por_conta (const Banco *b, const char *conta);
 
 /**
+ * @brief Busca o indice de um cliente pelo cpf.
+ *
+ * @param b Ponteiro para o banco.
+ * @param conta Conta a ser buscada.
+ * @return indice do cliente no vetor ou -1 se nao encontrado.
+ */
+int buscar_por_cpf (const Banco *b, const char *conta);
+
+/**
  * @brief Cria uma nova conta no banco.
  *
  * Solicita dados ao usuario, valida entrada e persiste no arquivo.
