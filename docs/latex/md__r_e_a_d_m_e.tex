@@ -1,0 +1,257 @@
+\chapter{Banco Malvader – Sistema Bancário em C }
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{Banco Malvader – Sistema Bancário em C@{Banco Malvader – Sistema Bancário em C}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+
+
+Sistema bancário modular em linguagem C, desenvolvido como projeto acadêmico. ~\newline
+ O sistema implementa manipulação de clientes, operações bancárias, listagens, ordenação e persistência de dados em arquivos de texto. ~\newline
+ Toda a documentação do código-\/fonte é gerada automaticamente com {\bfseries{Doxygen}}.
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{\texorpdfstring{Objetivos do Projeto}{Objetivos do Projeto}}\label{md__r_e_a_d_m_e_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Aplicar fundamentos de modularização em C. ~\newline
+
+\item Separação de responsabilidades entre módulos. ~\newline
+
+\item Persistência de dados utilizando arquivos texto. ~\newline
+
+\item Uso de ponteiros, estruturas, vetores dinâmicos, ordenação e busca. ~\newline
+
+\item Documentação de código profissional via Doxygen.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysection{\texorpdfstring{Funcionalidades}{Funcionalidades}}\label{md__r_e_a_d_m_e_autotoc_md4}
+
+\begin{DoxyItemize}
+\item Cadastro de clientes
+\item Depósito
+\item Saque
+\item Transferência entre contas
+\item Alteração de dados
+\item Consulta de saldos
+\item Exclusão lógica de clientes (marcando como inativo)
+\item Reativação de contas
+\item Ordenação\+:
+\begin{DoxyItemize}
+\item por nome
+\item por número da conta
+\end{DoxyItemize}
+\item Registro de movimentações em arquivo
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysection{\texorpdfstring{Estrutura de diretórios}{Estrutura de diretórios}}\label{md__r_e_a_d_m_e_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Banco\_Malvader/}
+\DoxyCodeLine{│}
+\DoxyCodeLine{├──\ src/}
+\DoxyCodeLine{│\ \ \ ├──\ main.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Função\ principal\ /\ loop\ do\ menu}
+\DoxyCodeLine{│\ \ \ ├──\ banco.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Lógica\ de\ operações\ bancárias}
+\DoxyCodeLine{│\ \ \ ├──\ banco.h}
+\DoxyCodeLine{│\ \ \ ├──\ cliente.c\ \ \ \ \ \ \ \ \ \ \ \ \#\ Controle\ dos\ dados\ de\ clientes}
+\DoxyCodeLine{│\ \ \ ├──\ cliente\_data.h}
+\DoxyCodeLine{│\ \ \ ├──\ ordenacao.c\ \ \ \ \ \ \ \ \ \ \#\ Ordenação\ (quicksort\ +\ comparadores)}
+\DoxyCodeLine{│\ \ \ ├──\ ordenacao.h}
+\DoxyCodeLine{│\ \ \ ├──\ io.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Funções\ de\ entrada\ e\ validação}
+\DoxyCodeLine{│\ \ \ ├──\ io.h}
+\DoxyCodeLine{│\ \ \ └──\ ...}
+\DoxyCodeLine{│}
+\DoxyCodeLine{├──\ data/}
+\DoxyCodeLine{│\ \ \ ├──\ clientes.txt}
+\DoxyCodeLine{│\ \ \ ├──\ movimentos.txt}
+\DoxyCodeLine{│\ \ \ └──\ ...}
+\DoxyCodeLine{│}
+\DoxyCodeLine{├──\ README.md}
+\DoxyCodeLine{└──\ Doxyfile}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysection{\texorpdfstring{Módulos principais}{Módulos principais}}\label{md__r_e_a_d_m_e_autotoc_md8}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{{\ttfamily banco.\+c}}{{\ttfamily banco.\+c}}}\label{md__r_e_a_d_m_e_autotoc_md9}
+Contém a lógica principal do sistema bancário\+:
+
+
+\begin{DoxyItemize}
+\item depósito ~\newline
+
+\item saque ~\newline
+
+\item transferência ~\newline
+
+\item carregamento e gravação de dados ~\newline
+
+\item busca de clientes
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md10}{}\doxysubsection{\texorpdfstring{{\ttfamily cliente.\+c} / {\ttfamily cliente\+\_\+data.\+h}}{{\ttfamily cliente.\+c} / {\ttfamily cliente\+\_\+data.\+h}}}\label{md__r_e_a_d_m_e_autotoc_md10}
+Define a estrutura {\ttfamily Cliente} e funções associadas.\hypertarget{md__r_e_a_d_m_e_autotoc_md11}{}\doxysubsection{\texorpdfstring{{\ttfamily ordenacao.\+c}}{{\ttfamily ordenacao.\+c}}}\label{md__r_e_a_d_m_e_autotoc_md11}
+Implementa {\ttfamily quicksort} e comparadores para ordenar\+:
+
+
+\begin{DoxyItemize}
+\item por nome ~\newline
+
+\item por número da conta
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysubsection{\texorpdfstring{{\ttfamily io.\+c}}{{\ttfamily io.\+c}}}\label{md__r_e_a_d_m_e_autotoc_md12}
+Funções de leitura e validação do usuário\+:
+
+
+\begin{DoxyItemize}
+\item leitura de {\ttfamily int}, {\ttfamily double}, strings ~\newline
+
+\item limpeza de buffer ~\newline
+
+\item leitura formatada para conta e valor
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md13}{}\doxysubsection{\texorpdfstring{{\ttfamily main.\+c}}{{\ttfamily main.\+c}}}\label{md__r_e_a_d_m_e_autotoc_md13}
+Controla\+:
+
+
+\begin{DoxyItemize}
+\item o menu do programa ~\newline
+
+\item chamadas aos módulos ~\newline
+
+\item execução do loop principal
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md15}{}\doxysection{\texorpdfstring{Requisitos}{Requisitos}}\label{md__r_e_a_d_m_e_autotoc_md15}
+
+\begin{DoxyItemize}
+\item GCC (ou outro compilador C)
+\item CMake (opcional)
+\item Doxygen (para gerar documentação)
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md16}{}\doxysubsection{\texorpdfstring{Verificar se o compilador está instalado}{Verificar se o compilador está instalado}}\label{md__r_e_a_d_m_e_autotoc_md16}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{gcc\ -\/-\/version}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md17}{}\doxysubsection{\texorpdfstring{Verificar Doxygen}{Verificar Doxygen}}\label{md__r_e_a_d_m_e_autotoc_md17}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{doxygen\ -\/-\/version}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md19}{}\doxysection{\texorpdfstring{Como compilar}{Como compilar}}\label{md__r_e_a_d_m_e_autotoc_md19}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md20}{}\doxysubsection{\texorpdfstring{Via GCC (modo rápido)}{Via GCC (modo rápido)}}\label{md__r_e_a_d_m_e_autotoc_md20}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{gcc\ -\/o\ banco\ src/*.c}
+\DoxyCodeLine{./banco}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md21}{}\doxysubsection{\texorpdfstring{Windows (Min\+GW)}{Windows (Min\+GW)}}\label{md__r_e_a_d_m_e_autotoc_md21}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{gcc\ -\/o\ banco.exe\ src/*.c}
+\DoxyCodeLine{banco.exe}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md23}{}\doxysection{\texorpdfstring{Compilar usando CMake}{Compilar usando CMake}}\label{md__r_e_a_d_m_e_autotoc_md23}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ build}
+\DoxyCodeLine{cd\ build}
+\DoxyCodeLine{cmake\ ..}
+\DoxyCodeLine{make}
+\DoxyCodeLine{./banco}
+
+\end{DoxyCode}
+
+
+Windows\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ build}
+\DoxyCodeLine{cd\ build}
+\DoxyCodeLine{cmake\ -\/G\ "{}MinGW\ Makefiles"{}\ ..}
+\DoxyCodeLine{mingw32-\/make}
+\DoxyCodeLine{banco.exe}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md25}{}\doxysection{\texorpdfstring{Gerar documentação com Doxygen}{Gerar documentação com Doxygen}}\label{md__r_e_a_d_m_e_autotoc_md25}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md26}{}\doxysubsection{\texorpdfstring{1 Criar Doxyfile (se ainda não existir)}{1 Criar Doxyfile (se ainda não existir)}}\label{md__r_e_a_d_m_e_autotoc_md26}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{doxygen\ -\/g}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md27}{}\doxysubsection{\texorpdfstring{2 Editar no Doxyfile\+:}{2 Editar no Doxyfile\+:}}\label{md__r_e_a_d_m_e_autotoc_md27}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{PROJECT\_NAME\ \ \ \ \ \ \ \ \ \ \ =\ "{}Banco\ Malvader"{}}
+\DoxyCodeLine{INPUT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ ./src}
+\DoxyCodeLine{RECURSIVE\ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ YES}
+\DoxyCodeLine{GENERATE\_HTML\ \ \ \ \ \ \ \ \ \ =\ YES}
+\DoxyCodeLine{GENERATE\_LATEX\ \ \ \ \ \ \ \ \ =\ YES}
+\DoxyCodeLine{OUTPUT\_DIRECTORY\ =\ docs}
+
+\end{DoxyCode}
+
+
+\begin{quote}
+Para o README virar a página inicial da documentação\+: \end{quote}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{USE\_MDFILE\_AS\_MAINPAGE\ =\ README.md}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md28}{}\doxysubsection{\texorpdfstring{3 Gerar documentação}{3 Gerar documentação}}\label{md__r_e_a_d_m_e_autotoc_md28}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{doxygen\ Doxyfile}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md29}{}\doxysubsection{\texorpdfstring{4 Abrir no navegador}{4 Abrir no navegador}}\label{md__r_e_a_d_m_e_autotoc_md29}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docs/html/index.html}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md31}{}\doxysection{\texorpdfstring{Alguns comandos úteis}{Alguns comandos úteis}}\label{md__r_e_a_d_m_e_autotoc_md31}
+Eliminar build do CMake\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{rm\ -\/rf\ build}
+
+\end{DoxyCode}
+
+
+Regenerar docs\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{doxygen\ Doxyfile}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md33}{}\doxysection{\texorpdfstring{Autores}{Autores}}\label{md__r_e_a_d_m_e_autotoc_md33}
+{\bfseries{Cesar Amaru}}, {\bfseries{Carlos Eduardo Estrela}}, {\bfseries{Thyago Oliveira}}, {\bfseries{Samuel RIbeiro Braga}}, {\bfseries{Yan Gabriel Pereira}}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md35}{}\doxysection{\texorpdfstring{🏁 Licença}{🏁 Licença}}\label{md__r_e_a_d_m_e_autotoc_md35}
+Projeto criado para fins acadêmicos, podendo ser utilizado como base para estudos, ensino e evolução de projetos C. 

@@ -38,7 +38,6 @@ void ler_conta_e_valor(char *conta, size_t tam_conta, double *valor) {
     while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
-
 // Limpar tela.
 void limpar_tela(void) {
     printf("\nPressione enter para retornar ao menu.\n");
