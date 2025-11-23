@@ -74,7 +74,7 @@ int banco_salvar(Banco *b) {
 // Carregar clientes salvos no arquivo clientes.txt .
 int banco_carregar(Banco* b) {
     FILE *a = fopen(b->arq_clientes, "r"); // Abre o arquivo clientes.
-    char linha[1024]; // Cria um vetor para a quantidade de linhas do arquivo.
+    char linha[1024]; // Cria um vetor temporario para a quantidade garantir que a linha inteira do arquivo seja lida.
     int carregados = 0; // Quantos clientes foram carregados.
 
     if (a == NULL) { // Verifica se o arquivo foi aberto com sucesso.
@@ -84,7 +84,7 @@ int banco_carregar(Banco* b) {
 
     // Ler linha por linha.
     while (fgets(linha, sizeof(linha), a)) {
-        Cliente c = {0};
+        Cliente c = {0}; // limpa os campos da struct cliente
         int ativo_temp;
         linha[strcspn(linha, "\n")] = '\0';
 
