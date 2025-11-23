@@ -148,7 +148,7 @@ int buscar_por_conta (const Banco *b, const char *conta) {
 int buscar_por_cpf (const Banco *b, const char *cpf) {
     size_t i;
     for (i = 0; i < b->tam; i++) {
-        if (strcmp(b->clientes[i].cpf, cpf) == 0)//Compara se o numero do CPF fornecido bate com o CPF salva no arquivo .txt.
+        if (strcmp(b->clientes[i].cpf, cpf) == 0)// Compara se o numero do CPF fornecido bate com o CPF salva no arquivo .txt.
             return i;
     }
     return -1;
