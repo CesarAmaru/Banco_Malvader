@@ -144,6 +144,7 @@ int buscar_por_conta (const Banco *b, const char *conta) {
     return -1; // Caso nao seja encontrado, o valor retornado e -1.
 }
 
+
 int buscar_por_cpf (const Banco *b, const char *cpf) {
     size_t i;
     for (i = 0; i < b->tam; i++) {
