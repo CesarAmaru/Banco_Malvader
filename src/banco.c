@@ -159,34 +159,89 @@ int buscar_por_cpf (const Banco *b, const char *cpf) {
 int banco_criar_conta(Banco *b) {
     Cliente novo = cliente_criar_vazio(); // inicializa um cliente com os campos vazios (funçao de cliente_data.h).
 
-    // Informaçoes da nova conta.
+    // ===== Informaçoes da nova conta =====
+    // -- AGENCIA --
     printf("AGENCIA (formato -> 0001): "); ler_linha(novo.agencia, sizeof(novo.agencia)); // Ler agencia.
+    if (strlen(novo.agencia) != 4) {
+        printf("ERRO! Agencia invalida!\n");
+        return 0;
+    }
+    // -- CONTA --
     printf("CONTA (formato -> 123456-7): "); ler_linha(novo.conta, sizeof(novo.conta)); // Ler conta.
+    if (strlen(novo.conta) != 8) {
+        printf("ERRO! Conta invalida!\n"); // verifica se a conta foi digitada conforme o formato padrao
+        return 0;
+    }
     if (buscar_por_conta(b, novo.conta) != -1) {    // Verifica se a conta ja existe.
         // Retorna -1 caso nenhuma conta com mesmos digitos for encontrada em clientes.txt .
         printf("Essa conta ja eaxiste!!");
         return 0;
     }
-
+    // -- NOME --
     printf("NOME COMPLETO: "); ler_linha(novo.nome, sizeof(novo.nome)); // Ler nome.
 
+    // -- CPF --
     printf("CPF (formato -> 123.456.789-00): "); ler_linha(novo.cpf, sizeof(novo.cpf)); // Pegar CPF.
+    if (strlen(novo.cpf) != 14) {
+        printf("ERRO! CPF digitado invalido!\n"); // verifica se o CPF foi digitado conforme o formato padrao
+        return 0;
+    }
     if (buscar_por_cpf(b, novo.cpf) != -1) {  // Verifica se o CPF ja existe.
         printf("Esse CPF ja foi cadastrado!");
         return 0;
     }
-    // Data de nascimento do cliente.
+    // -- Data de nascimento do cliente --
     printf("DATA DE NASCIMENTO (formato -> DD-MM-AAAA): "); ler_linha(novo.data_nasc, sizeof(novo.data_nasc));
-    // Numero de telefone.
+    if (strlen(novo.data_nasc) == 0) {
+        printf("ERRO! Data de nascimento invalida!\n"); // verifica se a data de nascimento foi deixada em branco
+        return 0;
+    }
+    // -- Numero de telefone --
     printf("TELEFONE (formato -> 6134567890): "); ler_linha(novo.telefone, sizeof(novo.telefone));
+    if (strlen(novo.telefone) < 8) {
+        printf("ERRO! Telefone invalido!\n"); // verifica se o telefone foi digitado conforme o formato padrao
+        return 0;
+    }
 
-    // Pegar endereço do cliente.
+    // === Pegar endereço do cliente ===
+    // - ESTADO -
     printf("ESTADO (formato -> sigla): "); ler_linha(novo.estado, sizeof(novo.estado));
+    if (strlen(novo.estado) == 0) {
+        printf("ERRO! Informe seu estado!\n"); // verifica se o estado foi deixado em branco
+        return 0;
+    }
+
+    // - ENDERECO COMPLETO -
     printf("ENDERECO COMPLETO: "); ler_linha(novo.endereco, sizeof(novo.endereco));
+    if (strlen(novo.endereco) == 0) {
+        printf("ERRO! Informe seu endereco!\n"); // verifica se o endereco foi deixado em branco
+        return 0;
+    }
+    // - CEP -
     printf("CEP (formato -> 00000-001): "); ler_linha(novo.cep, sizeof(novo.cep));
+    if (strlen(novo.cep) > 9) {
+        printf("ERRO! CEP invalido!\n"); // verifica se o CEP digitado conforme o formato padrao
+        return 0;
+    }
+    // - NUM CASA -
     printf("NUMERO DA CASA: "); ler_linha(novo.numero_casa, sizeof(novo.numero_casa));
+    if (strlen(novo.numero_casa) == 0) {
+        printf("ERRO! Informe o numero de sua casa!\n"); // verifica se o numero da casa foi deixado em branco
+        return 0;
+    }
+    // - CIDADE -
     printf("CIDADE: "); ler_linha(novo.cidade, sizeof(novo.cidade));
+    if (strlen(novo.cidade) == 0) {
+        printf("ERRO! Informe sua cidade!\n"); // verifica se a cidade deixada em branco
+        return 0;
+    }
+    // - BAIRRO -
     printf("BAIRRO: "); ler_linha(novo.bairro, sizeof(novo.bairro));
+    if (strlen(novo.bairro) == 0) {
+        printf("ERRO! Informe seu bairro!\n"); // verifica se o bairro foi deixado em branco
+        return 0;
+    }
+
 
     // Criar senha para conta.
     printf("\n CRIE UMA SENHA (minimo 4 caracteres)\n");
