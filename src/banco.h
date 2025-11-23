@@ -105,7 +105,7 @@ int buscar_por_conta (const Banco *b, const char *conta);
  * @brief Busca o indice de um cliente pelo cpf.
  *
  * @param b Ponteiro para o banco.
- * @param cpf Conta a ser buscada.
+ * @param cpf CPF a ser buscada.
  * @return indice do cliente no vetor ou -1 se nao encontrado.
  */
 int buscar_por_cpf (const Banco *b, const char *cpf);
