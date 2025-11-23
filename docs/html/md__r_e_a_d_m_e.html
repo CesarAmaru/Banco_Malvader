@@ -113,17 +113,27 @@ Objetivos do Projeto</h1>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Funcionalidades</h1>
 <ul>
-<li>Cadastro de clientes</li>
-<li>Depósito</li>
-<li>Saque</li>
-<li>Transferência entre contas</li>
-<li>Alteração de dados</li>
-<li>Consulta de saldos</li>
-<li>Exclusão lógica de clientes (marcando como inativo)</li>
-<li>Reativação de contas</li>
+<li>Cadastro de clientes <br  />
+</li>
+<li>Depósito <br  />
+</li>
+<li>Saque <br  />
+</li>
+<li>Transferência entre contas <br  />
+</li>
+<li>Alteração de dados <br  />
+</li>
+<li>Consulta de saldos <br  />
+</li>
+<li>Exclusão lógica de clientes (marcando como inativo) <br  />
+</li>
+<li>Reativação de contas <br  />
+</li>
 <li>Ordenação:<ul>
-<li>por nome</li>
-<li>por número da conta</li>
+<li>por nome <br  />
+</li>
+<li>por número da conta <br  />
+</li>
 </ul>
 </li>
 <li>Registro de movimentações em arquivo</li>
@@ -154,10 +164,10 @@ Estrutura de diretórios</h1>
 <div class="line">└── Doxyfile</div>
 </div><!-- fragment --><hr  />
 <h1 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
-Módulos principais</h1>
+Estrutura dos Módulos</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 <span class="tt">banco.c</span></h2>
-<p>Contém a lógica principal do sistema bancário:</p>
+<p>Responsável por:</p>
 <ul>
 <li>depósito <br  />
 </li>
@@ -174,7 +184,7 @@ Módulos principais</h1>
 <p>Define a estrutura <span class="tt">Cliente</span> e funções associadas.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 <span class="tt">ordenacao.c</span></h2>
-<p>Implementa <span class="tt">quicksort</span> e comparadores para ordenar:</p>
+<p>Implementa <span class="tt">quicksort</span> e comparadores:</p>
 <ul>
 <li>por nome <br  />
 </li>
@@ -182,11 +192,11 @@ Módulos principais</h1>
 </ul>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 <span class="tt">io.c</span></h2>
-<p>Funções de leitura e validação do usuário:</p>
+<p>Funções de entrada e validação:</p>
 <ul>
-<li>leitura de <span class="tt">int</span>, <span class="tt">double</span>, strings <br  />
+<li>leitura de <span class="tt">int</span>, <span class="tt">double</span> e strings <br  />
 </li>
-<li>limpeza de buffer <br  />
+<li>tratamento de buffer <br  />
 </li>
 <li>leitura formatada para conta e valor</li>
 </ul>
@@ -194,89 +204,190 @@ Módulos principais</h1>
 <span class="tt">main.c</span></h2>
 <p>Controla:</p>
 <ul>
-<li>o menu do programa <br  />
+<li>o menu <br  />
 </li>
 <li>chamadas aos módulos <br  />
 </li>
-<li>execução do loop principal</li>
+<li>laço principal de execução</li>
 </ul>
 <hr  />
 <h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
 Requisitos</h1>
 <ul>
-<li>GCC (ou outro compilador C)</li>
-<li>CMake (opcional)</li>
-<li>Doxygen (para gerar documentação)</li>
+<li>GCC, Clang, MSVC ou outro compilador C. <br  />
+</li>
+<li>CMake (opcional). <br  />
+</li>
+<li>Doxygen (para documentação). <br  />
+</li>
+<li>LaTeX (MiKTeX, TexLive ou MacTex – para gerar PDF).</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
-Verificar se o compilador está instalado</h2>
-<div class="fragment"><div class="line">gcc --version</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
-Verificar Doxygen</h2>
-<div class="fragment"><div class="line">doxygen --version</div>
+<hr  />
+<h1 class="doxsection"><a class="anchor" id="autotoc_md17"></a>
+Executar no Terminal (Windows)</h1>
+<p>Pré-requisitos:</p>
+<ul>
+<li>CMake instalado <br  />
+</li>
+<li>Compilador C (MinGW-w64, Clang, MSVC…)</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+Passo a passo</h2>
+<ol type="1">
+<li>Pressione <span class="tt">Win + R</span>, digite: <br  />
+ <div class="fragment"><div class="line">cmd</div>
+</div><!-- fragment --></li>
+<li>Vá até o diretório do projeto, por exemplo:</li>
+</ol>
+<div class="fragment"><div class="line">cd &quot;C:\Users\...\Banco_Malvader&quot;</div>
+</div><!-- fragment --><ol type="1">
+<li>Para compilar:</li>
+</ol>
+<div class="fragment"><div class="line">compile.bat</div>
+</div><!-- fragment --><ol type="1">
+<li>Para executar:</li>
+</ol>
+<div class="fragment"><div class="line">run.bat</div>
+</div><!-- fragment --><ol type="1">
+<li>Ou compilação + execução automática:</li>
+</ol>
+<div class="fragment"><div class="line">start.bat</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
-Como compilar</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
-Via GCC (modo rápido)</h2>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+Compilar manualmente com GCC</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+Linux</h2>
 <div class="fragment"><div class="line">gcc -o banco src/*.c</div>
 <div class="line">./banco</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md22"></a>
 Windows (MinGW)</h2>
 <div class="fragment"><div class="line">gcc -o banco.exe src/*.c</div>
 <div class="line">banco.exe</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
-Compilar usando CMake</h1>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+Compilando com CMake</h1>
 <div class="fragment"><div class="line">mkdir build</div>
 <div class="line">cd build</div>
 <div class="line">cmake ..</div>
 <div class="line">make</div>
 <div class="line">./banco</div>
-</div><!-- fragment --><p>Windows:</p>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+Windows</h2>
 <div class="fragment"><div class="line">mkdir build</div>
 <div class="line">cd build</div>
 <div class="line">cmake -G &quot;MinGW Makefiles&quot; ..</div>
 <div class="line">mingw32-make</div>
 <div class="line">banco.exe</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
 Gerar documentação com Doxygen</h1>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
-1 Criar Doxyfile (se ainda não existir)</h2>
-<div class="fragment"><div class="line">doxygen -g</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md27"></a>
-2 Editar no Doxyfile:</h2>
-<div class="fragment"><div class="line">PROJECT_NAME           = &quot;Banco Malvader&quot;</div>
-<div class="line">INPUT                  = ./src</div>
-<div class="line">RECURSIVE              = YES</div>
-<div class="line">GENERATE_HTML          = YES</div>
-<div class="line">GENERATE_LATEX         = YES</div>
-<div class="line">OUTPUT_DIRECTORY = docs</div>
-</div><!-- fragment --><blockquote class="doxtable">
-<p>Para o README virar a página inicial da documentação: </p>
-</blockquote>
-<div class="fragment"><div class="line">USE_MDFILE_AS_MAINPAGE = README.md</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
-3 Gerar documentação</h2>
-<div class="fragment"><div class="line">doxygen Doxyfile</div>
+<p>Pré-requisitos:</p><ul>
+<li>Doxygen instalado na máquina</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md28"></a>
+1. Criar Doxyfile</h2>
+<p>Vá até o diretório do projeto, e digite: </p><div class="fragment"><div class="line">doxygen -g</div>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
-4 Abrir no navegador</h2>
-<div class="fragment"><div class="line">docs/html/index.html</div>
-</div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md31"></a>
-Alguns comandos úteis</h1>
-<p>Eliminar build do CMake:</p>
-<div class="fragment"><div class="line">rm -rf build</div>
-</div><!-- fragment --><p>Regenerar docs:</p>
+2. Configurar</h2>
+<p>No Doxyfile altere:</p>
+<div class="fragment"><div class="line">PROJECT_NAME     = &quot;Banco Malvader&quot;</div>
+<div class="line">INPUT            = ./src</div>
+<div class="line">RECURSIVE        = YES</div>
+<div class="line">GENERATE_HTML    = YES</div>
+<div class="line">GENERATE_LATEX   = YES</div>
+<div class="line">OUTPUT_DIRECTORY = docs</div>
+</div><!-- fragment --><p>Para usar o README como página inicial:</p>
+<div class="fragment"><div class="line">USE_MDFILE_AS_MAINPAGE = README.md</div>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
+3. Gerar documentação</h2>
 <div class="fragment"><div class="line">doxygen Doxyfile</div>
 </div><!-- fragment --><hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md33"></a>
-Autores</h1>
-<p><b>Cesar Amaru</b>, <b>Carlos Eduardo Estrela</b>, <b>Thyago Oliveira</b>, <b>Samuel RIbeiro Braga</b>, <b>Yan Gabriel Pereira</b></p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md32"></a>
+Visualizar HTML</h1>
+<div class="fragment"><div class="line">start html/index.html</div>
+</div><!-- fragment --><p>ou</p>
+<div class="fragment"><div class="line">start docs/html/index.html</div>
+</div><!-- fragment --><hr  />
+<h1 class="doxsection"><a class="anchor" id="autotoc_md34"></a>
+Gerar PDF da Documentação com LaTeX</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
+1. Instalar LaTeX</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md36"></a>
+Windows (recomendado)</h3>
+<p>Instalar MiKTeX:</p>
+<p><a href="https://miktex.org/download">https://miktex.org/download</a></p>
+<p>Marque:</p>
+<div class="fragment"><div class="line">Install missing packages automatically</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md37"></a>
+Linux (Ubuntu/Debian)</h3>
+<div class="fragment"><div class="line">sudo apt update</div>
+<div class="line">sudo apt install texlive-full</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md38"></a>
+macOS</h3>
+<div class="fragment"><div class="line">brew install mactex</div>
+</div><!-- fragment --><hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md40"></a>
+2. Compilar PDF</h2>
+<p>Depois de gerar o LaTeX com o Doxygen:</p>
+<div class="fragment"><div class="line">cd latex</div>
+</div><!-- fragment --><p>Use o XeLaTeX (melhor para Unicode):</p>
+<div class="fragment"><div class="line">xelatex refman.tex</div>
+<div class="line">xelatex refman.tex</div>
+</div><!-- fragment --><p>O PDF será criado em:</p>
+<div class="fragment"><div class="line">latex/refman.pdf</div>
+</div><!-- fragment --><p> ou</p>
+<div class="fragment"><div class="line">docs/latex/refman.pdf</div>
+</div><!-- fragment --> <hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md42"></a>
+3. Abrir o PDF</h2>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md43"></a>
+Windows</h3>
+<div class="fragment"><div class="line">start refman.pdf</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md44"></a>
+Linux</h3>
+<div class="fragment"><div class="line">xdg-open refman.pdf</div>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md45"></a>
+macOS</h3>
+<div class="fragment"><div class="line">open refman.pdf</div>
+</div><!-- fragment --><hr  />
+<h1 class="doxsection"><a class="anchor" id="autotoc_md47"></a>
+Compilar pelo CLion</h1>
+<ol type="1">
+<li>Abrir o projeto <br  />
+</li>
+<li>Esperar o CMake carregar <br  />
+</li>
+<li><span class="tt">Ctrl + F9</span> para compilar <br  />
+</li>
+<li><span class="tt">Shift + F10</span> para executar</li>
+</ol>
 <hr  />
-<h1 class="doxsection"><a class="anchor" id="autotoc_md35"></a>
-🏁 Licença</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md49"></a>
+Comandos Úteis</h2>
+<p>Apagar build do CMake:</p>
+<div class="fragment"><div class="line">rm -rf build</div>
+</div><!-- fragment --><p>Gerar documentação novamente:</p>
+<div class="fragment"><div class="line">doxygen Doxyfile</div>
+</div><!-- fragment --><p>Recompilar PDF:</p>
+<div class="fragment"><div class="line">cd latex</div>
+<div class="line">xelatex refman.tex</div>
+</div><!-- fragment --><hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md51"></a>
+Autores</h2>
+<ul>
+<li>Carlos Eduardo Estrela <br  />
+</li>
+<li>Cesar Amaru <br  />
+</li>
+<li>Thyago Oliveira <br  />
+</li>
+<li>Samuel Ribeiro Braga <br  />
+</li>
+<li>Yan Gabriel Pereira</li>
+</ul>
+<hr  />
+<h2 class="doxsection"><a class="anchor" id="autotoc_md53"></a>
+🏁 Licença</h2>
 <p>Projeto criado para fins acadêmicos, podendo ser utilizado como base para estudos, ensino e evolução de projetos C. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

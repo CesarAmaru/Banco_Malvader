@@ -286,7 +286,11 @@ O PDF será criado em:
 ```
 latex/refman.pdf
 ```
+ou 
 
+```
+docs/latex/refman.pdf
+```
 ---
 
 ## 3. Abrir o PDF

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['principais_0',['Módulos principais',['../md__r_e_a_d_m_e.html#autotoc_md8',1,'']]],
-  ['projeto_1',['Objetivos do Projeto',['../md__r_e_a_d_m_e.html#autotoc_md2',1,'']]]
+  ['recomendado_0',['Windows (recomendado)',['../md__r_e_a_d_m_e.html#autotoc_md36',1,'']]],
+  ['requisitos_1',['Requisitos',['../md__r_e_a_d_m_e.html#autotoc_md15',1,'']]]
 ];

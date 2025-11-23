@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['úteis_0',['Alguns comandos úteis',['../md__r_e_a_d_m_e.html#autotoc_md31',1,'']]]
+  ['úteis_0',['Comandos Úteis',['../md__r_e_a_d_m_e.html#autotoc_md49',1,'']]]
 ];

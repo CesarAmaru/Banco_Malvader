@@ -1,16 +1,14 @@
 var searchData=
 [
-  ['c_0',['Banco Malvader – Sistema Bancário em C',['../md__r_e_a_d_m_e.html',1,'']]],
-  ['c_1',['c',['../md__r_e_a_d_m_e.html#autotoc_md9',1,'&lt;span class=&quot;tt&quot;&gt;banco.c&lt;/span&gt;'],['../md__r_e_a_d_m_e.html#autotoc_md12',1,'&lt;span class=&quot;tt&quot;&gt;io.c&lt;/span&gt;'],['../md__r_e_a_d_m_e.html#autotoc_md13',1,'&lt;span class=&quot;tt&quot;&gt;main.c&lt;/span&gt;'],['../md__r_e_a_d_m_e.html#autotoc_md11',1,'&lt;span class=&quot;tt&quot;&gt;ordenacao.c&lt;/span&gt;']]],
-  ['c_20cliente_5fdata_20h_2',['&lt;span class=&quot;tt&quot;&gt;cliente.c&lt;/span&gt; / &lt;span class=&quot;tt&quot;&gt;cliente_data.h&lt;/span&gt;',['../md__r_e_a_d_m_e.html#autotoc_md10',1,'']]],
-  ['cliente_20c_20cliente_5fdata_20h_3',['&lt;span class=&quot;tt&quot;&gt;cliente.c&lt;/span&gt; / &lt;span class=&quot;tt&quot;&gt;cliente_data.h&lt;/span&gt;',['../md__r_e_a_d_m_e.html#autotoc_md10',1,'']]],
-  ['cliente_5fdata_20h_4',['&lt;span class=&quot;tt&quot;&gt;cliente.c&lt;/span&gt; / &lt;span class=&quot;tt&quot;&gt;cliente_data.h&lt;/span&gt;',['../md__r_e_a_d_m_e.html#autotoc_md10',1,'']]],
-  ['cmake_5',['Compilar usando CMake',['../md__r_e_a_d_m_e.html#autotoc_md23',1,'']]],
-  ['com_20doxygen_6',['Gerar documentação com Doxygen',['../md__r_e_a_d_m_e.html#autotoc_md25',1,'']]],
-  ['comandos_20úteis_7',['Alguns comandos úteis',['../md__r_e_a_d_m_e.html#autotoc_md31',1,'']]],
-  ['como_20compilar_8',['Como compilar',['../md__r_e_a_d_m_e.html#autotoc_md19',1,'']]],
-  ['compilador_20está_20instalado_9',['Verificar se o compilador está instalado',['../md__r_e_a_d_m_e.html#autotoc_md16',1,'']]],
-  ['compilar_10',['Como compilar',['../md__r_e_a_d_m_e.html#autotoc_md19',1,'']]],
-  ['compilar_20usando_20cmake_11',['Compilar usando CMake',['../md__r_e_a_d_m_e.html#autotoc_md23',1,'']]],
-  ['criar_20doxyfile_20se_20ainda_20não_20existir_12',['1 Criar Doxyfile (se ainda não existir)',['../md__r_e_a_d_m_e.html#autotoc_md26',1,'']]]
+  ['da_20documentação_20com_20latex_0',['Gerar PDF da Documentação com LaTeX',['../md__r_e_a_d_m_e.html#autotoc_md34',1,'']]],
+  ['de_20diretórios_1',['Estrutura de diretórios',['../md__r_e_a_d_m_e.html#autotoc_md6',1,'']]],
+  ['debian_2',['Linux (Ubuntu/Debian)',['../md__r_e_a_d_m_e.html#autotoc_md37',1,'']]],
+  ['diretórios_3',['Estrutura de diretórios',['../md__r_e_a_d_m_e.html#autotoc_md6',1,'']]],
+  ['do_20projeto_4',['Objetivos do Projeto',['../md__r_e_a_d_m_e.html#autotoc_md2',1,'']]],
+  ['documentação_5',['3. Gerar documentação',['../md__r_e_a_d_m_e.html#autotoc_md30',1,'']]],
+  ['documentação_20com_20doxygen_6',['Gerar documentação com Doxygen',['../md__r_e_a_d_m_e.html#autotoc_md27',1,'']]],
+  ['documentação_20com_20latex_7',['Gerar PDF da Documentação com LaTeX',['../md__r_e_a_d_m_e.html#autotoc_md34',1,'']]],
+  ['dos_20módulos_8',['Estrutura dos Módulos',['../md__r_e_a_d_m_e.html#autotoc_md8',1,'']]],
+  ['doxyfile_9',['1. Criar Doxyfile',['../md__r_e_a_d_m_e.html#autotoc_md28',1,'']]],
+  ['doxygen_10',['Gerar documentação com Doxygen',['../md__r_e_a_d_m_e.html#autotoc_md27',1,'']]]
 ];

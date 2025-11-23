@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['rápido_0',['Via GCC (modo rápido)',['../md__r_e_a_d_m_e.html#autotoc_md20',1,'']]],
-  ['requisitos_1',['Requisitos',['../md__r_e_a_d_m_e.html#autotoc_md15',1,'']]]
+  ['sistema_20bancário_20em_20c_0',['Banco Malvader – Sistema Bancário em C',['../md__r_e_a_d_m_e.html',1,'']]]
 ];

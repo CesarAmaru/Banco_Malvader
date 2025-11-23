@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['abrir_20no_20navegador_0',['4 Abrir no navegador',['../md__r_e_a_d_m_e.html#autotoc_md29',1,'']]],
-  ['ainda_20não_20existir_1',['1 Criar Doxyfile (se ainda não existir)',['../md__r_e_a_d_m_e.html#autotoc_md26',1,'']]],
-  ['alguns_20comandos_20úteis_2',['Alguns comandos úteis',['../md__r_e_a_d_m_e.html#autotoc_md31',1,'']]],
-  ['autores_3',['Autores',['../md__r_e_a_d_m_e.html#autotoc_md33',1,'']]]
+  ['bancário_20em_20c_0',['Banco Malvader – Sistema Bancário em C',['../md__r_e_a_d_m_e.html',1,'']]],
+  ['banco_20c_1',['&lt;span class=&quot;tt&quot;&gt;banco.c&lt;/span&gt;',['../md__r_e_a_d_m_e.html#autotoc_md9',1,'']]],
+  ['banco_20malvader_20–_20sistema_20bancário_20em_20c_2',['Banco Malvader – Sistema Bancário em C',['../md__r_e_a_d_m_e.html',1,'']]]
 ];
